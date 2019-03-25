@@ -1,0 +1,221 @@
+.tab-cadeiras,.tab-cadeiras li {
+    transition: background-color 0.5s ease;
+    background-color: #919ca5f5 !important;
+    border-radius: 5px 5px 0px 0px !important;
+}
+
+.tab-cadeiras tabset>ul>li:hover {
+    transition: background-color 0.5s ease;
+    background-color: #919ca5f5 !important;
+    color: #c73d3d !important;
+}
+
+.cadeira-content{
+    background-color: #319928ea !important;
+}
+
+.cadHorarios{
+    font-size: 12px;
+    background-color: #fcfcfc;
+}
+
+.cadHorarioLivre{
+    transition: background-color 0.5s ease;
+    height: 21px;
+}
+.cadHorarioLivre:hover {
+    background-color: #919ca5f5;
+    cursor: pointer;
+
+}
+
+.cadHorarioDr{
+    transition: background-color 0.5s ease;
+    background-color:  #f5b9a4;
+    /* margin-bottom: 2px; */
+    border: solid 1px #000000;
+    cursor: pointer;
+}
+.cadHorarioDr:hover{
+    background-color:  #eb7f58;
+    /* margin-bottom: 2px; */
+    border: solid 1px #000000;
+    cursor: pointer;
+}
+
+
+.cadHorariobrock{
+    transition: background-color 0.5s ease;
+    background-color:  #d0ecd0;
+    /* margin-bottom: 2px; */
+    border: solid 1px #000000;
+    cursor: pointer;
+}
+.cadHorariobrock:hover{
+    background-color:  #49af49;
+    /* margin-bottom: 2px; */
+    border: solid 1px #000000;
+    cursor: pointer;
+}
+
+
+.cadHorarioIndterv{
+    transition: background-color 0.5s ease;
+    background-color:  #ff000098;
+    /* margin-bottom: 2px; */
+    /* border: solid 1px #000000; */
+    cursor: pointer;
+}
+/*.cadHorarioIndterv:hover{
+    background-color:  #49af49;
+    border: solid 1px #000000;
+    cursor: pointer;
+}*/
+
+
+
+
+
+.CadColuna{
+    
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.colunaTitulo{
+    font-weight: bold;
+    background-color: #396A93;
+    color: white;
+    font-size: 14px;
+}
+
+.lb-form{
+    font-size: 12px;
+    font-weight: 700;
+    padding-bottom: 0;
+    margin: 0;
+}   
+
+.pd-r0{
+    padding-right: 0;
+}
+
+row-H1{
+    height: 60px !important;
+    margin-bottom: 4px;
+}
+
+.frm-mod{
+    margin-bottom: 4px;
+}
+
+.tbl-Min>table>tbody>tr>td>a,.tbl-Min>table>tbody>tr>td,.tbl-Min>table>tbody>tr{
+ padding: 0px !important;
+}
+
+.gerdRow{
+    margin-top: 10px;
+
+}
+
+.AgDrAddcolunaGrids{
+    border-radius: 14px 14px 0px 0px;
+}
+
+.md-padd-but{
+    padding-top: 4px;
+    padding-bottom: 0;
+}
+
+
+
+/* 
+.bs-chevron-down {
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+    top: -2px;
+}
+.bs-chevron {
+    border-style: solid;
+    display: block;
+    width: 9px;
+    height: 9px;
+    position: relative;
+    border-width: 3px 0px 0 3px;
+} */
+
+
+
+.processando{
+    top: 0;
+    position: relative;
+    float: left;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    height: 100%;
+    background-color: rgba(6, 6, 6, 0.38);
+}
+
+.processando-i{
+    margin-top: 10%;
+}
+
+.finc-ccc-processando{
+    top: 0;
+    position: absolute;
+    float: left;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* height: 45%; */
+    /* height: 400; */
+    /* height: 270px; */
+
+}
+.drDupliRela{
+    position: relative;
+}
+.drDupli{
+    background-color: #ff6f6f;
+    /*right: 10px;*/
+    float: right;
+    top: -35px;
+    right: 5px;
+    position: absolute;
+    height: 15px;
+    width: 16px;
+    border-radius: 15px;
+    font-size: 10px;
+
+}
+
+.ma-t-25{
+    margin-top: 25px;
+
+}
+
+.listCorFundo{
+    margin-bottom: 10px;
+    background-color: #80848038;
+}
+
+
+.alertLetraRed{
+    color : rgb(226, 74, 74);
+}
+.itenlink:hover{
+    cursor: pointer;
+    text-decoration-line: underline;
+
+}
+.showAlter:hover{
+    cursor: pointer;
+    text-decoration-line: underline;
+    background-color: #c73d3d6e;
+
+}
+
+.fr{
+    float: right;
+}

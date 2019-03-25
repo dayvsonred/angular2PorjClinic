@@ -1,0 +1,99 @@
+<!-- <p>   conta-corrente-prestador works! </p> -->
+<section>
+    <div class="container-fluid bgColW">
+        <div class="row"> 
+        <div class="col-3"> </div>
+        <div class="col-6">
+
+            <div class="row tt-pg-corp">
+                <div class="col tt-pg-name">
+                    Conta Corrente Prestador - {{SelectClinicaDados.nm_unidade_atendimento}}
+                </div>
+            </div>
+
+            <div class="row finc-top-bord">
+                <div class="col">
+                    <div class="row">
+                        <div class="col finc-bt-top ">
+                            <a href="{{SelectClinicaDados.BaseIndex}}">
+                                <i class="fa fa-reply finc-i-col-b" aria-hidden="true"></i>
+                                <strong> Voltar </strong>
+                            </a>
+                        </div>
+
+                        <div class="col finc-bd-l finc-bt-top" (click)="print()">
+                            <i class="fa fa-file-pdf-o finc-i-col-b" aria-hidden="true"></i>
+                            <strong> Imprimir </strong>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-3 finc-bd-l">
+                    <div class="row">
+                        <!-- <div *ngIf="IsAdm == true"    class="col finc-bd-l finc-bt-top " (click)="RecalcularSaldoDispMd(templateModalID9)">
+                          <i class="fa fa-cogs finc-i-col-b" aria-hidden="true"></i>
+                          <strong class="clr-red"> Recalcular 'Saldo Disponível' </strong> 
+                  </div> -->
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
+            <div>
+                <div class="row tituloReviboLinha">
+                    <div class="col-8 tituloRecibo">
+                        <h4> RECIBO - {{MD.nmPestador}} </h4>
+                    </div>
+                    <div class="col-3 tituloValor  " currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"> {{
+                        MD.valor_credito| formatCurrency}} </div>
+                    <div class="col-1 "> </div>
+                </div>
+
+                <div class="row "> </div>
+
+                <div class="row ">
+                    <div class="col-12 mgt-10 mgb-10" style=" margin-bottom:  80px; " >
+                        Recebi de IEB Ipatinga | Centro, a quantia de {{MD.valor_Extenso}}. Referente a parceria em trabalhos odontologicos no período
+                        {{MD.data_Ini_Ex}} à {{MD.data_Fim_Ex}}.
+                    </div>
+                    <div class="col-12 linhaassinar">
+                        
+                    </div>
+                </div>
+
+
+                <div class="row ">
+                    <div class="col-12">
+
+                        {{ startDateDia }} de {{ MesAnoComplt[startDateMesInt] }} de {{startDateAno}}
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-8   ">
+                        <div class="col-12 assinat">
+                        </div>
+                        <div class="col-12 assinatNome">
+                            {{SelectPrestadoNome}}
+                        </div>
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+        <div class="col-3"> </div>
+        </div>
+
+    </div>
+
+
+</section>

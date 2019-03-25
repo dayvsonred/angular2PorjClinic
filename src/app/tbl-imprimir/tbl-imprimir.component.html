@@ -1,0 +1,82 @@
+
+<div>
+  <div style="text-align: left">
+
+    <h2>{{Titulo}}</h2>
+    <br>
+    <p>{{DataPg}} </p>
+    <p> Unidade: {{Unidade}} </p>
+    <div class="row col"  >  
+      <div *ngIf="BTVoltar"   class="col-2">
+        <div class="form-group frm-bt-unic">
+          <button type="submit" class="btn btn-primary" (click)="Voltar()" title="Clique para voltar para a pagina anterior."  > Voltar </button>
+        </div>
+      </div>
+
+      <div *ngIf="BTCancelAg"   class="col-3">
+        <div class="form-group frm-bt-unic">
+          <button type="submit" class="btn btn-danger" (click)="CancelAg()"  title="Clique para Cancelar os agendamentos e excluir a cadeira do Dr. "  > <i class="fa fa-reply finc-i-col-b" aria-hidden="true"></i>  Cancelar Agendamentos  </button>
+        </div>
+      </div>
+    </div>
+    <div class="row col" style="margin-bottom: 10px"  >  </div>
+
+
+
+  </div>
+
+  <div>
+    <table class="table table-striped table-hover-fic finc-table" id="finc-tb">
+      <tbody class="ft-12">
+        <ng-template ngFor let-List [ngForOf] = "listaImprimir"  let-i = "index"> 
+        <!--    [class.table-hover-fic-Selected]="i == FincTrselectedRow"  [class.finc-td-debito]="ListFinancClinica.tipo_movimento == 'D'"   -->
+        <tr >
+          <!-- <th width ="5%" scope="row" style="text-align: center;"  >{{i+1}}</th> -->
+          <!-- <td width ="5%"  > {{List}} </td> -->
+
+          <ng-template ngFor let-ListDados [ngForOf] = "List"  let-y = "index"> 
+
+            <td width ="5%"   *ngIf="isFloat(ListDados)!=true" > {{ ListDados }} </td>
+            <td width ="5%"   *ngIf="isFloat(ListDados)==true" > {{ ListDados | formatCurrency }} </td>
+
+          </ng-template>
+
+
+
+
+        </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div>
+    <table class="table table-striped table-hover-fic finc-table" id="finc-tb">
+      <tbody class="ft-12">
+        <ng-template ngFor let-List [ngForOf] = "listaImprimirTotais"  let-i = "index"> 
+        <!--    [class.table-hover-fic-Selected]="i == FincTrselectedRow"  [class.finc-td-debito]="ListFinancClinica.tipo_movimento == 'D'"   -->
+        <tr >
+          <!-- <th width ="5%" scope="row" style="text-align: center;"  >{{i+1}}</th> -->
+          <!-- <td width ="5%"  > {{List}} </td> -->
+
+          <ng-template ngFor let-ListDados [ngForOf] = "List"  let-y = "index"> 
+
+            <td width ="5%"   *ngIf="isFloat(ListDados)!=true" > {{ ListDados }} </td>
+            <td width ="5%"   *ngIf="isFloat(ListDados)==true" > {{ ListDados | formatCurrency }} </td>
+
+          </ng-template>
+
+
+
+
+        </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  
+</div>

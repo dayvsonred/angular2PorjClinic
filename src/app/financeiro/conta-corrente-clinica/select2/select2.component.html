@@ -1,0 +1,13 @@
+<form style="padding:18px;max-width:800px;"
+    >
+	
+    <div style="margin:5px 0;font-weight:600;">Single select example</div>
+    <ng-select
+		  [options]="options0"
+		  [multiple]="multiple0"
+		  placeholder="Select one"
+      [allowClear]="true"
+      (selected)="meuMetodo($event)"              
+      >
+  </ng-select>
+</form>

@@ -1,0 +1,40 @@
+.tituloRecibo{
+    font-weight: 600;
+
+}
+.tituloValor{
+    font-weight: 600;
+    border: 1px solid;
+}
+
+.tituloReviboLinha::after { 
+    content: "-";
+    background-color: black;
+    color: black;
+    width: 100%;
+    height: 1px;
+    font-size: 1px;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.tituloReviboLinha2::after { 
+    content: "_";
+    background-color: black;
+    color: black;
+    width: 100%;
+    height: 1px;
+    font-size: 1px;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.assinat{
+    margin-top: 50px;
+    border-bottom: 1px solid;
+}
+
+.assinatNome{
+    text-justify: auto;
+    text-align: center;
+}

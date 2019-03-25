@@ -1,0 +1,221 @@
+<section>
+  <div class="container-fluid" >
+   
+    <div class="row tt-pg-corp">
+      <div class="col tt-pg-name">
+        Recebimento Financeiro Dentalvidas - {{SelectClinicaDados.nm_unidade_atendimento}}
+      </div>
+    </div>
+
+    <!-- DIV PROCESSANDO   -->
+	<div class="loading" *ngIf="loading">
+	    <div class="processando">
+	        <div style="padding-top: 200px;">
+	        	<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+	        </div>
+	        <span class="sr-only">Loading...</span>
+	    </div>
+	</div>
+
+    <div class="row finc-top-bord">
+      <div class="col">
+        <div class="row" style="height: 30px; padding-top: 2px;">
+          <div class="col finc-bt-top "  >
+              <a href="{{SelectClinicaDados.BaseIndex}}" > <i class="fa fa-reply finc-i-col-b" aria-hidden="true"></i> <strong> Voltar </strong> </a>
+          </div>
+        </div>
+      </div>
+    </div> <!-- end row -->
+
+    <div class="row finc-sub-bts">
+      <form #formFiltros style="width: 95%" (ngSubmit)="buscarDados()">
+      <br>
+		  <div class="col">
+		    <div class="row">
+	          <div class="col-md-2">
+	            <div class="form-group frm-topo inputFiltrosMarginBottomMenor">
+	              <label class="lb-topo" >Mês </label>
+                <select id="mes_filtro" name="mes_filtro" [(ngModel)]="filtros.mes" class="form-control inputTextDataFiltros" (change)="onChangeMes()">
+                  <option value="01" [selected]="filtros.mes == '01'">Janeiro</option>
+                  <option value="02" [selected]="filtros.mes == '02'">Fevereiro</option>
+                  <option value="03" [selected]="filtros.mes == '03'">Março</option>
+                  <option value="04">Abril</option>
+                  <option value="05">Maio</option>
+                  <option value="06">Junho</option>
+                  <option value="07">Julho</option>
+                  <option value="08">Agosto</option>
+                  <option value="09">Setembro</option>
+                  <option value="10">Outubro</option>
+                  <option value="11">Novembro</option>
+                  <option value="12">Dezembro</option>
+                </select>
+	              <!--<my-date-picker name="mydate" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions" [(ngModel)]="filtros.dataInicio" placeholder="{{dataHojeDMY}}" required minlength="10"></my-date-picker>-->
+	            </div>
+	          </div>
+	          <div class="col-md-2">
+	            <div class="form-group frm-topo inputFiltrosMarginBottomMenor">
+	              <label class="lb-topo" >Ano</label>
+                <select id="ano_filtro" name="ano_filtro" [(ngModel)]="filtros.ano" class="form-control inputTextDataFiltros" (change)="onChangeAno()">
+                  <option value="2018">2018</option>
+                  <option value="2019">2019</option>
+                </select>
+	              <!--<my-date-picker name="mydate1" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions" [(ngModel)]="filtros.dataFim" placeholder="{{dataHojeDMY}}" ng-required minlength="10"></my-date-picker>-->
+	            </div>
+	          </div>
+
+		        <div class="col-md-3">
+		          <div class="form-group frm-topo inputFiltrosMarginBottomMenor">
+		            <label class="lb-topo" > Unidade </label>
+		            <ng-select class="custom"
+		              [options]="ListUnidadePrestador"
+		              [multiple]="multiple0"
+		              placeholder="{{SelectClinicaDados.nm_unidade_atendimento}}"
+		              [allowClear]="false"
+		              (selected)="onSelectUnidade($event)">
+		            </ng-select>
+		          </div>
+		        </div>
+
+		        <div class="col-md-1">
+		          <div>
+	              <div>
+	              	<br>
+			            <button type="submit" class="btn btn-primary inputTextDataFiltros" style="width:120px" [disabled]="loading"> <i class="fa fa-search" aria-hidden="true"></i>  Filtrar </button>
+			          </div>
+		          </div>
+		        </div>
+		    </div>
+		  </div>
+	  </form>
+    </div> <!-- end row -->
+
+    <br>
+    <div class="row">
+      <div class="col finc-lista-relatorio" #GridRelatorio >
+        <div class="finc-bd-tb">
+
+          <div class="box-franqueada">
+            <div>
+              <p class="titulo">Recebimento da Franqueada (Mensalidades)</p>
+              <br>
+              <table style="width: 100%">
+                <thead>
+                  <tr style="background-color: #bbb;">
+                    <th style="text-align: left; width: 70%; font-size: 18px !important">Qtd. Planos</th>
+                    <th style="text-align: left; width: 30%; font-size: 18px !important">Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                      <td style="text-align: left; width: 70%; font-weight: bold">{{qtdTotalMensalidade}}&nbsp;</td>
+                      <td style="text-align: left; width: 30%; font-weight: bold">R$ {{valorTotalMensalidade | number:'1.2-2'}}&nbsp;</td>
+                  </tr>
+                  <br>
+                  <tr style="background-color: #bbb">
+                      <td colspan="2" style="font-weight: bold">Despesas do Plano</td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: left; width: 70%">Impostos</td>
+                      <td style="text-align: left; width: 30%">R$ {{valorTotalImpostos | number:'1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: left; width: 70%">Royalties</td>
+                      <td style="text-align: left; width: 30%">R$ {{valorTotalRoyalties | number:'1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: left; width: 70%">Repasse da Franqueada</td>
+                      <td style="text-align: left; width: 30%">R$ {{valorTotalPagtoGto | number:'1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left; width: 70%; font-weight: bold">Sobra Total - FRANQUEADA</td>
+                    <td style="text-align: left; width: 30%; font-weight: bold">R$ {{sobraTotalFranqueada | number:'1.2-2'}}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <div class="box-clinica">
+            <div>
+              <p class="titulo">Repasse para a Clínica (Produção do Mês)</p>
+              <br>
+              <table style="width: 100%">
+                <thead>
+                  <tr style="background-color: #bbb">
+                    <th style="text-align: left; width: 70%; font-size: 18px !important">Valor</th>
+                    <th style="text-align: left; width: 30%; font-size: 18px !important">R$ {{valorTotalRecbtoGto | number:'1.2-2'}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                      <td colspan="2">&nbsp;</td>
+                  </tr>
+                  <br>
+                  <tr style="background-color: #bbb">
+                      <td colspan="2" style="font-weight: bold">Despesas</td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: left; width: 70%">Dentista</td>
+                      <td style="text-align: left; width: 30%">R$ {{valorTotalDespDentista | number:'1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: left; width: 70%">Material</td>
+                      <td style="text-align: left; width: 30%">R$ {{valorTotalDespMaterial | number:'1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left; width: 70%; font-weight: bold">Sobra Total - CLÍNICA</td>
+                    <td style="text-align: left; width: 30%; font-weight: bold">R$ {{sobraTotalClinica | number:'1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">&nbsp;</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <div class="box-sobra-total">
+            <div>
+              <p [class]="sobraTotalGeral < 0 ? 'fonte-vermelha-sobra-total' : 'fonte-azul-sobra-total'">Sobra Total (Franqueada + Clínica): R$ {{sobraTotalGeral | number:'1.2-2'}}</p>
+            </div>
+          </div>
+
+          <div class="box-rodape">
+            <div>
+              <table style="width: 48%">
+                <tbody>
+                  <tr>
+                      <td style="text-align: left; width: 70%">Glosas</td>
+                      <td style="text-align: left; width: 30%">R$ {{valorTotalGlosa | number:'1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: left; width: 70%">Débitos do Mês - Mensalidades</td>
+                      <td style="text-align: left; width: 30%">R$ {{valorTotalMensalidadesAtraso | number:'1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: left; width: 70%">Pagamento GTO - Próprio</td>
+                      <td style="text-align: left; width: 30%">R$ {{valorTotalPagtoGtoProprio | number:'1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: left; width: 70%">Pagamento GTO - Terceiros</td>
+                      <td style="text-align: left; width: 30%">R$ {{valorTotalPagtoGtoTerceiro | number:'1.2-2'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- end row -->
+  </div> <!-- end container-fluid -->
+
+</section>

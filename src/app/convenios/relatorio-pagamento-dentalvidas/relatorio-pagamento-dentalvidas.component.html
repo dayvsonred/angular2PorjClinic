@@ -1,0 +1,204 @@
+<section>
+  <div class="container-fluid" >
+   
+    <div class="row tt-pg-corp">
+      <div class="col tt-pg-name">
+        Relatório Pagamentos Dentalvidas - {{SelectClinicaDados.nm_unidade_atendimento}}
+      </div>
+    </div>
+
+    <!-- DIV PROCESSANDO   -->
+	<div class="loading" *ngIf="loading">
+	    <div class="processando">
+	        <div style="padding-top: 200px;">
+	        	<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+	        </div>
+	        <span class="sr-only">Loading...</span>
+	    </div>
+	</div>
+
+    <div class="row finc-top-bord">
+      <div class="col">
+        <div class="row" style="height: 30px; padding-top: 2px;">
+          <div class="col finc-bt-top "  >
+              <a href="{{SelectClinicaDados.BaseIndex}}" > <i class="fa fa-reply finc-i-col-b" aria-hidden="true"></i> <strong> Voltar </strong> </a>
+          </div>
+        </div>
+      </div>
+    </div> <!-- end row -->
+
+    <div class="row finc-sub-bts">
+      <form #formFiltros style="width: 95%" (ngSubmit)="buscarDados(true)">
+		  <div class="col">
+		    <div class="row">
+	          <div class="col-md-2">
+	            <div class="form-group frm-topo inputFiltrosMarginBottomMenor">
+	              <label class="lb-topo" >Início </label>
+	              <my-date-picker name="mydate" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions" [(ngModel)]="filtros.dataInicio" placeholder="{{dataHojeDMY}}" required minlength="10"></my-date-picker>
+	            </div>
+	          </div>
+	          <div class="col-md-2">
+	            <div class="form-group frm-topo inputFiltrosMarginBottomMenor">
+	              <label class="lb-topo" >Fim</label>
+	              <my-date-picker name="mydate1" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions" [(ngModel)]="filtros.dataFim" placeholder="{{dataHojeDMY}}" ng-required minlength="10"></my-date-picker>
+	            </div>
+	          </div>
+
+		      <div class="col-md-2">
+		      	<div class="form-group frm-topo inputFiltrosMarginBottomMenor">
+	              <label class="lb-topo" for="tipo_trat_filtro"> Tipo Tratamento </label>
+	              <select id="tipo_trat_filtro" name="tipo_trat_filtro" [(ngModel)]="filtros.tipoTratamento" class="form-control inputTextDataFiltros" (change)="onChangeTipoTrat()">
+	                <option value="todos">Todos</option>
+	                <option *ngFor="let item of ListTipoTratamento" [value]="item.chave">{{item.nm_tipo_tratamento}}</option>
+	              </select>
+	            </div>
+	          </div>
+
+		      <div class="col-md-3">
+		        <div class="form-group frm-topo inputFiltrosMarginBottomMenor">
+		          <label class="lb-topo" > Unidade Autorizada Dentalvidas</label>
+		          <ng-select class="custom"
+		              [options]="ListUnidadePrestador"
+		              [multiple]="multiple0"
+		              placeholder="{{SelectClinicaDados.nm_unidade_atendimento}}"
+		              [allowClear]="false"
+		              (selected)="onSelectUnidade($event)">
+		          </ng-select>
+		        </div>
+		      </div>
+
+		      <div class="col-md-3">
+		        <div class="form-group frm-topo inputFiltrosMarginBottomMenor">
+		          <label class="lb-topo" > Unidade Tratamento </label>
+		          <ng-select class="custom"
+		              [options]="ListUnidadeTodas"
+		              [multiple]="multiple0"
+		              placeholder="Todas"
+		              [allowClear]="false"
+		              (selected)="onSelectUnidadeTratamento($event)">
+		          </ng-select>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-md-2">
+		        <div class="form-group frm-topo ">
+		          <label class="lb-topo" for="tipo_exibicao_filtro">Tipo Exibição</label>
+	              <select id="tipo_exibicao_filtro" name="tipo_exibicao_filtro" [(ngModel)]="filtros.tipoExibicao" class="form-control inputTextDataFiltros" (change)="onChangeTipoExibicao()">
+	                <option value="detalhado" [selected]="filtros.tipoExibicao == 'detalhado'">Detalhado</option>
+	                <option value="resumido" [selected]="filtros.tipoExibicao == 'resumido'">Resumido</option>
+	              </select>
+		        </div>
+		      </div>
+
+	          <div class="col-md-1">
+		        <div>
+	              <div>
+	              	<br>
+			        <button type="submit" class="btn btn-primary inputTextDataFiltros" style="width:120px" [disabled]="loading"> <i class="fa fa-search" aria-hidden="true"></i>  Filtrar </button>
+			      </div>
+		        </div>
+		      </div>
+	        </div>
+		  </div>
+	  </form>
+    </div> <!-- end row -->
+
+    <span [style.display]="filtros.tipoExibicao == 'detalhado' ? '' : 'none'">
+	    <br>
+	    <div class="row">
+	      <div class="col finc-lista-relatorio" #GridTratamentos style="min-height: 120px;">    
+	        <div class="finc-bd-tb">
+	          <h5 style="color: blue; cursor: pointer" (click)="secaoTrat.expanded = !secaoTrat.expanded">Tratamentos {{secaoTrat.expanded ? '(-)' : '(+)'}}</h5>
+	          <table class="table table-bordered table-striped table-sm table-info">
+		        <thead>
+		          <tr style="background-color: #bbb">
+		          	<th style="text-align: center;">#</th>
+		          	<th style="text-align: left;">Unidade</th>
+		            <th style="text-align: left;">Paciente</th>
+		            <th style="text-align: center;">Valor Paciente</th>
+		            <th style="text-align: center;">Valor Convênio</th>
+		            <th style="text-align: center;">Líquido Pago</th>
+		            <th style="text-align: center;">Data Pagamento</th>
+		            <th style="text-align: center;">GTO</th>
+		            <th style="text-align: left;">Fim tratamento</th>
+		            <th style="text-align: center;">Intervenção</th>
+		            <th style="text-align: center;">Tipo Trat</th>
+		            <th style="text-align: center;">Lote</th>
+		          </tr>
+		        </thead>
+		        <tbody [style.display]="secaoTrat.expanded ? '' : 'none'">
+		          <tr *ngFor="let trat of ListaTrat; let i = index">
+		          	  <td scope="row" style="text-align: center;">{{i+1}}</td>
+		              <td style="text-align: left;"> {{trat.nm_unidade_tratamento}}</td>
+		              <td style="text-align: left;"> {{trat.paciente}}</td>
+		              <td>{{trat.valor | number:'1.2-2'}}</td>
+		              <td>{{trat.receber_convenio | number:'1.2-2'}}</td>
+		              <td>{{trat.vl_proc_liquido | number:'1.2-2'}}</td>
+		              <td>{{trat.dt_pagamento_lote}}</td>
+		              <td>{{trat.nr_guia_gto}}</td>
+		              <td>{{trat.fim_trat}}</td>
+		              <td>{{trat.intervencao}}<br /><em>{{trat.regiao}}</em></td>
+		              <td>{{trat.nm_tipo_tratamento}}</td>
+		              <td>{{trat.id_lote}}</td>
+		          </tr>
+		        </tbody>
+	            <tfoot>
+	              <tr>
+	                <td style="font-weight: bold; text-align: left;" colspan="3">Totais</td>
+	                <td style="font-weight: bold;">R$ {{ValorTotalPacienteTrat | number:'1.2-2'}}</td>
+	                <td style="font-weight: bold;">R$ {{ValorTotalConvenioTrat | number:'1.2-2'}}</td>
+	                <td style="font-weight: bold;">R$ {{ValorTotalPagoTrat | number:'1.2-2'}}</td>
+	                <td style="font-weight: bold;" colspan="6"></td>
+	              </tr>
+	            </tfoot>
+	          </table>
+
+	        </div>
+	      </div>
+	    </div><!-- end row -->
+	</span>
+
+    <span [style.display]="filtros.tipoExibicao == 'resumido' ? '' : 'none'">
+    	<br>
+	    <div class="row">
+	      <div class="col finc-lista-relatorio" #GridTratamentosAgrupUnid style="min-height: 120px;">
+	        <div class="finc-bd-tb">
+	          <h5 style="color: blue; cursor: pointer" (click)="secaoTratAgrupUnidade.expanded = !secaoTratAgrupUnidade.expanded">Tratamentos {{secaoTratAgrupUnidade.expanded ? '(-)' : '(+)'}}</h5>
+	          <table class="table table-bordered table-striped table-sm table-info">
+		        <thead>
+		          <tr style="background-color: #bbb">
+		          	<th style="text-align: center;">#</th>
+		          	<th style="text-align: left;">Unidade</th>
+		            <th style="text-align: center;">Valor Paciente</th>
+		            <th style="text-align: center;">Valor Convênio</th>
+		            <th style="text-align: center;">Líquido Pago</th>
+		          </tr>
+		        </thead>
+		        <tbody [style.display]="secaoTratAgrupUnidade.expanded ? '' : 'none'">
+		          <tr *ngFor="let trat of ListaTratAgrupUnidade; let i = index">
+		          	  <td scope="row" style="text-align: center;">{{i+1}}</td>
+		              <td style="text-align: left;"> {{trat.nm_unidade_tratamento}}</td>
+		              <td>{{trat.valor | number:'1.2-2'}}</td>
+		              <td>{{trat.receber_convenio | number:'1.2-2'}}</td>
+		              <td>{{trat.vl_proc_liquido | number:'1.2-2'}}</td>
+		          </tr>
+		        </tbody>
+	            <tfoot>
+	              <tr>
+	                <td style="font-weight: bold; text-align: left;" colspan="2">Totais</td>
+	                <td style="font-weight: bold;">R$ {{ValorTotalPacienteTrat | number:'1.2-2'}}</td>
+	                <td style="font-weight: bold;">R$ {{ValorTotalConvenioTrat | number:'1.2-2'}}</td>
+	                <td style="font-weight: bold;">R$ {{ValorTotalPagoTrat | number:'1.2-2'}}</td>
+	              </tr>
+	            </tfoot>
+	          </table>
+
+	        </div>
+	      </div>
+	    </div><!-- end row -->
+    </span>
+	    
+  </div> <!-- end container-fluid -->
+
+</section>

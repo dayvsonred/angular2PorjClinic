@@ -1,0 +1,118 @@
+.bdR1{
+    border-right: 1px groove #d3d3d3;
+}
+.w-100{
+    width: 100%;
+}
+.w-10{
+    width: 10% !important;
+}
+.mgT-10{
+    margin-top: 10px;
+}
+.mgL-5{
+    margin-left: 5px;
+}
+.mgL-10{
+    margin-left: 10px;
+}
+
+.mgR-5{
+    margin-right: 5px;
+}
+
+.mgR-15{
+    margin-right: 15px;
+}
+
+
+.ft-18{
+    font-size: 18px;
+}
+
+.grupTsTab>tr>td{
+    padding: 0px !important;
+
+}
+.grupTsTab{
+    margin-bottom: 0px !important;
+}
+.grupTsTab>tbody>tr:hover{
+    background-color: rgba(22, 253, 80, 0.274);
+    cursor: pointer;
+}
+.grupTsDthTab>tbody>tr:hover{
+    background-color: rgba(22, 141, 253, 0.438);
+    cursor: pointer;
+}
+.grupTsDthTab{
+    margin-bottom: 0px !important;
+}
+.grupTsDth-table-responsive {
+    max-height: 180px !important;
+    min-height: 0px !important;
+    overflow-y: auto;
+    overflow-x: hidden !important;
+}
+.grupTsDthTab>thead>tr>th {
+    padding: 0 !important;
+}
+
+.ipt-nome {
+    font-weight: 700 !important;
+    font-size: 18px !important;
+}
+
+.modal-lgA{
+    width: 90%;
+}
+
+.obrigat{
+    color: red !important;
+}
+.pa-t-15{
+    padding-top: 15px;
+}
+.wdt20{
+    width: 20px;
+}
+
+/*
+.card-header {
+    display: none !important;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+
+aaaa>div>div  {
+    display: none !important;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+
+aaaa>div>div .card-header {
+    display: none;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+accordion>accordion-group>div>div .card-header {
+    display: none;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+
+accordion>accordion-group>  .card-header {
+    display: none;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+
+accordion>accordion-group>div>div  {
+    display: none;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+accordion>accordion-group>div>div .card-header {
+    padding: 0 !important;
+}
+*/

@@ -1,0 +1,1189 @@
+<!-- <p>   conta-corrente-prestador works! </p> -->
+<section>
+    <div class="container-fluid">
+        <div class="row tt-pg-corp">
+            <div class="col tt-pg-name">
+                Conta Corrente Prestador\Painel de Produção - {{SelectClinicaDados.nm_unidade_atendimento}}
+            </div>
+        </div>
+
+
+
+        <div class="row finc-top-bord">
+            <div class="col">
+                <div class="row">
+                    <div class="col finc-bt-top ">
+                        <a href="{{SelectClinicaDados.BaseIndex}}">
+                            <i class="fa fa-reply finc-i-col-b" aria-hidden="true"></i>
+                            <strong> Voltar </strong>
+                        </a>
+                    </div>
+                    <!-- <div class="col finc-bd-l finc-bt-top" (click)="NovoCredito(templateModalID3)">
+                      <i class="fa fa-plus finc-i-col-b" aria-hidden="true"></i>
+                      <strong> Crédito </strong>
+                  </div>
+                  <div class="col finc-bd-l finc-bt-top" (click)="Alterar(templateModalID5)">
+                      <i class="fa fa-pencil-square-o finc-i-col-b" aria-hidden="true"></i>
+                      <strong> Altera </strong>
+                  </div>
+                  <div class="col finc-bd-l finc-bt-top" (click)="Devolucao(templateModalID7)">
+                      <i class="fa fa-share-square finc-i-col-b" aria-hidden="true"></i>
+                      <strong> Devolução </strong>
+                  </div>
+                  <div class="col-2 finc-bd-l finc-bt-top" (click)="Transfere(templateModalID8)">
+                      <i class="fa fa-exchange finc-i-col-b" aria-hidden="true"></i>
+                      <strong> Transferência </strong>
+                  </div>
+                  <div class="col finc-bd-l finc-bt-top" (click)="Deletar(templateModalID6)">
+                      <i class="fa fa-times finc-i-col-b" aria-hidden="true"></i>
+                      <strong> Elimina </strong>
+                  </div> -->
+                    <div class="col finc-bd-l finc-bt-top">
+                        <i class="fa fa-file-pdf-o finc-i-col-b" aria-hidden="true"></i>
+                        <strong> Imprimir </strong>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-3 finc-bd-l">
+                <div class="row">
+
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+
+        <div class="row finc-sub-bts">
+
+            <div class="col-3">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group frm-topo ">
+                            <label class="lb-topo">Início </label>
+                            <form #myForm="ngForm" novalidate>
+                                <!-- placeholder="{{DataHojeini}}" -->
+                                <my-date-picker name="mydate" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}"
+                                    [options]="myDatePickerOptions" [(ngModel)]="model" required></my-date-picker>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group frm-topo ">
+                            <label class="lb-topo">Fim</label>
+                            <form #myForm="ngForm" novalidate>
+                                <!-- placeholder="{{DataHojeFim}}" -->
+                                <my-date-picker name="mydate1" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}"
+                                    [options]="myDatePickerOptions" [(ngModel)]="model1" required></my-date-picker>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="row">
+
+                    <div class="col-5">
+                        <div class="form-group frm-topo ">
+                            <label class="lb-topo"> Unidade </label>
+                            <ng-select style="background-color: #fff;" [options]="ListUnidade" [multiple]="multiple0"
+                                placeholder="{{UnidadeNome}}" [allowClear]="true" (selected)="onSelectUnidade($event)">
+                            </ng-select>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group frm-topo ">
+                            <label class="lb-topo"> Prestador </label>
+                            <ng-select style="background-color: #fff;" [options]="DrUnidade" [multiple]="multiple0"
+                                placeholder="..." [allowClear]="true" (selected)="onPrestadoUnidad($event)">
+                            </ng-select>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-group frm-topo ">
+                            <label class="lb-topo"> Tipo de Tratamento: </label>
+                            <ng-select style="background-color: #fff;" [options]="ListTatamentoMed" [(ngModel)]="Tratment"
+                                [multiple]="multiple0" placeholder="Selecione o prestador" [allowClear]="true"
+                                (selected)="onTratamentoUnidad($event)" (closed)="CloseTratamentoUnidad()">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-1">
+                <div class="form-group frm-bt-unic">
+                    <button type="submit" class="btn btn-primary col-12 ft-12" [disabled]="DivProssec" (click)="BuscarFinaceiro()">
+                        <i class="fa fa-refresh " aria-hidden="true"></i> Atualizar </button>
+                </div>
+            </div>
+
+        </div>
+        <!-- end row -->
+
+
+
+
+
+        <div class="row">
+            <!-- <div class="container-fluid finc-lista-relatorio"  > -->
+            <div class="col finc-lista-relatorio">
+
+                <div class="finc-ccc-processando" *ngIf="caregandoFinc">
+                    <div class="processando">
+                        <i class="fa fa-refresh  fa-spin fa-3x fa-fw processando-i"></i>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+
+                <div class="finc-bd-tb">
+                    <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                        <thead class="thead-default">
+                            <tr>
+                                <th width="3%" style="text-align: center;">#</th>
+                                <th width="4%" style="text-align: center;"> <input [class.esconde]="!ExibirChkAll" type="checkbox"
+                                        [(ngModel)]="pagaAllCH" (change)="pagarAllCH()" /> PAGO</th>
+                                <th width="10%" style="text-align: center;">Realização</th>
+                                <th width="" style="text-align: center;">Detalhes</th>
+                                <th width="8%" style="text-align: center;">Tipo Tratamento</th>
+                                <th width="8%" style="text-align: center;">Tipo Comissão</th>
+                                <th width="5%" style="text-align: center;">Valor</th>
+                                <th width="5%" style="text-align: center;">Desconto</th>
+                                <th width="5%" style="text-align: center;">Comissão</th>
+                                <th width="5%" style="text-align: center;">Débito</th>
+                                <th width="5%" style="text-align: center;">Crédito</th>
+                                <th width="3%"></th>
+                                <th width="3%"></th>
+                                <th width="1%"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="finc-bd-tb finc-table-responsive">
+                    <table class="table table-striped table-hover-fic finc-table" id="finc-tb">
+                        <tbody class="ft-12">
+                            <ng-template ngFor let-ListFinancGridU [ngForOf]="ListFinancGrid" let-i="index">
+                                <!--  (click)="FincaTrSelect(ListFinancGridU,i)"  <tr   [class.table-hover-fic-Selected]="i == FincTrselectedRow"  [class.finc-td-debito]="ListFinancClinica.tipo_movimento == 'D'"   *ngFor="let ListFinancClinica of ListFinancClinicaGrid; let i = index " > -->
+                                <tr [class.table-hover-fic-Selected]="i == FincTrselectedRow" [class.finc-td-debito]="ListFinancGridU.transacao == 'D'">
+                                    <th width="3%" scope="row" style="text-align: center;">{{i+1}}</th>
+                                    <td width="4%">
+                                        <label [class.esconde]="ListFinancGridU.txtSituacao == 1">
+                                            {{ListFinancGridU.txtSituacao }} </label>
+                                        <input [class.esconde]="ListFinancGridU.txtSituacao != 1" type="checkbox"
+                                            [checked]="ListFinancGridU.CHKTRUE" (change)="pagarParcelaAdd(ListFinancGridU.chave)" />
+                                    </td>
+                                    <td width="10%"> {{ListFinancGridU.dtfinalizacaoSHW }} </td>
+                                    <td width="" style="text-align: left;" (click)="addShwDthl(i)">
+                                        <strong>Pac.: </strong> {{ ListFinancGridU.nm_paciente }} {{
+                                        ListFinancGridU.sobrenome }} <br>
+                                        <strong>Preferencia Pac.: </strong> {{ListFinancGridU.preferencia }} <label
+                                            [class.esconde]="!ShwDthl(i)">...[VER MAIS] </label> <br>
+
+                                        <div [class.esconde]="ShwDthl(i)">
+                                            <strong>Trat.: </strong>{{ ListFinancGridU.tratamento }} <br>
+                                            <strong>Inter.: </strong> {{ ListFinancGridU.nm_intervencao }} ( {{
+                                            ListFinancGridU.regiao }} ) <br>
+                                            <strong>Histórico: </strong> {{ ListFinancGridU.historico }}
+                                        </div>
+                                        <!-- {{ListFinancGridU.historicoShow }}  -->
+
+                                    </td>
+                                    <td width="8%"> {{ListFinancGridU.nm_tipo_tratamento }} </td>
+                                    <td width="8%"> {{ListFinancGridU.tipo_comissaoShow }} </td>
+
+
+                                    <td width="5%" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                        {{ListFinancGridU.vlintervencao | formatCurrency}} </td>
+                                    <td width="5%" style="text-align: center;" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                        {{ListFinancGridU.abatimentos | formatCurrency}} </td>
+                                    <td width="5%" style="text-align: center;" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                        {{ListFinancGridU.comissao | formatCurrency}} </td>
+                                    <td width="5%" style="text-align: center;" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                        {{ListFinancGridU.valor_parcela | formatCurrency}} </td>
+                                    <td width="5%" style="text-align: center;" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                        {{ListFinancGridU.valor_credito | formatCurrency}} </td>
+
+                                    <td class="corp2" width="3%" style="text-align: center;" (click)="detalhesFinac(templateModalID5,ListFinancGridU)">
+                                        <i class="fa fa-search-plus"> </i>
+                                    </td>
+
+                                    <td class="corp2" [class.esconde]="ListFinancGridU.txtSituacao == 1" width="3%"
+                                        style="text-align: center;" (click)="CancelarBaixaCinfirma(ListFinancGridU,templateModalID4,i+1)">
+                                        <i class="fa fa-times-circle-o"> </i>
+                                    </td>
+                                    <td [class.esconde]="ListFinancGridU.txtSituacao != 1" width="3%">
+
+                                    </td>
+
+
+
+                                    <td width="1%"></td>
+                                </tr>
+                            </ng-template>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <!-- PAGA FORM -->
+        <div class="row">
+            <div class="col-2">
+                <div class="form-group frm-topo ">
+                    <label class="lb-topo"> <strong> Forma de pagamento </strong></label>
+                    <ng-select style="background-color: #fff;" [options]="FormPag" [multiple]="multiple0" [allowClear]="true"
+                        (selected)="onSelectFormPag($event)">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group frm-bt-unic">
+                    <button type="submit" class="btn btn-primary col-12 ft-12" [disabled]="Process" (click)="Pagar(templateModalID3)">
+                        <i class="fa fa-usd " aria-hidden="true"></i> Realizar Pagamento </button>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group frm-bt-unic">
+                    <button type="submit" class="btn btn-primary col-12 ft-12" [disabled]="Process" (click)="BuscarFinaceiro()">
+                        <i class="fa fa-credit-card" aria-hidden="true"></i> Pendências de Convênio OPERADORA </button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <!--    ###################  [hidden]="ShowBtsMesAtual"  *ngIf="showDadosMes == true"  -->
+        <div class="col-12 ">
+            <div class="row finc-sub-bts">
+
+
+                <div class="col-6">
+                    <div class=" row">
+
+
+                        <div class="col ">
+                            <div class="form-group frm-lf  ">
+                                <label class="lb-topo">Clínica Geral: </label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{TotalValCg | formatCurrency}}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Implantodontia: </label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{TotalValImp | formatCurrency}}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Ortodontia:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{TotalValOrt | formatCurrency}}">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Prótese:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{TotalValPrt | formatCurrency}}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Comissão ind:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ total_indicacao | formatCurrency}}">
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class=" row">
+
+
+
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Comissão rep:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ total_repeticao | formatCurrency}}">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Débitos:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ TotalDebito | formatCurrency}}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Valor Já Pagos:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{TotalPago | formatCurrency}}">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Saldo:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{TotalSaldFim | formatCurrency}}">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Pagar Comissão:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{0 | formatCurrency}}">
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+    <!-- /****************************************************************************************
+    * MODAL
+    * PRESTADOR PARCELAS 
+    */ -->
+
+
+    <ng-template #templateModalID1>
+        <div class="modal-header tt-md-corp">
+            <h4 class="modal-title pull-left tt-md-name">Detalhar movimento</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span class="tt-md-close" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!-- This is static modal, backdrop click will not close it.
+              Click <b>&times;</b> to close modal. -->
+            Prestador: {{SelectPrestadoNome}}
+            <div class="row">
+
+
+                <div class=" finc-sub-bts w-100">
+                    <div class="finc-bd-tb w-100">
+                        <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                            <thead class="thead-default">
+                                <tr>
+                                    <th width="5%" style="text-align: center;">#</th>
+                                    <th width="10%" style="text-align: center;">Realização</th>
+                                    <th width="" style="text-align: center;">Prestador</th>
+                                    <th width="10%" style="text-align: center;">Lançamento</th>
+                                    <th width="26%" style="text-align: center;">Detalhes</th>
+                                    <th width="6%" style="text-align: center;">Valor</th>
+                                    <th width="6%" style="text-align: center;">Desconto</th>
+                                    <th width="6%" style="text-align: center;">Comissão</th>
+                                    <th width="6%" style="text-align: center;">Débito</th>
+                                    <th width="6%" style="text-align: center;">Crédito</th>
+                                    <!-- <th width="10%" style="text-align: center;">Usuario</th> -->
+
+                                    <th width="1%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="finc-bd-tb finc-table-responsive w-100">
+                        <table class="table table-striped table-hover-fic finc-table" id="finc-tb">
+                            <tbody class="ft-12">
+                                <ng-template ngFor let-ListFinancGridU [ngForOf]="ListFinancDTHGrid" let-i="index">
+
+                                    <tr (click)="FincaTrSelect(ListFinancGridU,i)" [class.table-hover-fic-Selected]="i == FincTrselectedRow"
+                                        [class.finc-td-debito]="ListFinancGridU.transacao == 'D'">
+                                        <th width="5%" scope="row" style="text-align: center;">{{i+1}}</th>
+                                        <td width=""> {{ListFinancGridU.dataShow }} </td>
+                                        <td width=""> {{SelectPrestadoNome }} </td>
+                                        <td width="10%" style="text-align: center;"> {{ListFinancGridU.categoria }}
+                                        </td>
+                                        <td width="26%"> <strong>Pac.: </strong> {{ListFinancGridU.nm_paciente }} <br>
+                                            <strong>Preferencia Pac.: </strong> {{ListFinancGridU.preferencia }} <br>
+                                            <strong>Trat.: </strong> {{ListFinancGridU.tratamento }} <br>
+                                            <strong>Inter.: </strong> {{ListFinancGridU.nm_intervencao }} (
+                                            {{ListFinancGridU.regiao
+                                            }} ) <br>
+                                            <strong>Filial: </strong> {{ListFinancGridU.nm_unidade_atendimento }} <br>
+                                            <strong>Histórico: </strong> {{ListFinancGridU.historico }} </td>
+                                        <!-- STA FALTANDO UM ITEN NAO IDENTIFIQUEI $bkg -->
+                                        <td width="6%" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                            {{ListFinancGridU.vlintervencao | formatCurrency}} </td>
+                                        <td width="6%" style="text-align: center;" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                            {{ListFinancGridU.abatimentos | formatCurrency}} </td>
+                                        <td width="6%" style="text-align: center;" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                            {{ListFinancGridU.comissao | formatCurrency}} </td>
+                                        <td width="6%" style="text-align: center;" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                            {{ListFinancGridU.valor_parcela | formatCurrency}} </td>
+                                        <td width="6%" style="text-align: center;" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                            {{ListFinancGridU.valor_credito | formatCurrency}} </td>
+
+
+
+                                        <td width="1%"></td>
+                                    </tr>
+                                </ng-template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+                <!-- <div class=" finc-sub-bts"> 
+                                    <div class="col-6">
+                                        <div class="form-group frm-topo ">
+                                            <label class="lb-topo" > Saldo Total: </label>  
+                                            <input type="text" class="form-control finc-inpt"  disabled="true"  [(ngModel)]="FormSaldoAnt"  currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" >
+                                        </div>
+                                    </div>
+                
+                                    <div class="col-6"   *ngFor="let CaixaAntIPT of FormCaixaAntIPTs;let i = index "    >
+                                        <div class="form-group frm-topo ">
+                                            <label class="lb-topo" > {{CaixaAntIPT.nm_categoria_plano_conta}} </label>
+                                            <input type="text" class="form-control finc-inpt"   (keyup)="onchagerSaldo(MDARRAY)" (keypress)="onchagerSaldo(MDARRAY)" (ngOnChanges)="onchagerSaldo(MDARRAY)"  [(ngModel)]="MDARRAY[CaixaAntIPT.cpc]"  [id]="CaixaAntIPT.cpc"  #elem  (click)="FumMovCusorOfEnd(elem)"    placeholder="R$: 0,00"   currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" >
+                                        </div>
+                                    </div>
+                            </div> -->
+
+                <div class="col finc-sub-bts ">
+                    <div class="col mgt-15">
+                        <button type="button" class="btn btn-primary float-right" (click)="modalRef.hide()">Fechar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ng-template>
+
+
+
+
+
+
+    <!-- /****************************************************************************************
+    * MODAL
+    * PRESTADOR PARCELAS 
+    */ -->
+
+
+    <ng-template #templateModalID2>
+        <div class="modal-header tt-md-corp">
+            <h4 class="modal-title pull-left tt-md-name">Imprimir Recibo</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span class="tt-md-close" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!-- This is static modal, backdrop click will not close it.
+                            Click <b>&times;</b> to close modal. -->
+            <div>
+                <div class="row tituloReviboLinha">
+                    <div class="col-8 tituloRecibo">
+                        <h4> RECIBO - {{SelectPrestadoNome}} </h4>
+                    </div>
+                    <div class="col-3 tituloValor  " currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                        {{ MD.valor_credito| formatCurrency}} </div>
+                    <div class="col-1 "> </div>
+                </div>
+
+                <div class="row "> </div>
+
+                <div class="row tituloReviboLinha">
+                    <div class="col-12 mgt-10 mgb-10">
+                        Recebi de {{SelectClinicaDados.nm_unidade_atendimento}}, a quantia de {{ValorAExtenso}}.
+                        Referente a parceria em trabalhos odontologicos no período {{MD.ReciboDTIni}} à
+                        {{MD.ReciboDTFim}}.
+                    </div>
+
+                    <div class="col-12">
+                        <div class="finc-bd-tb">
+                            <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th width="5%" style="text-align: center;">#</th>
+                                        <th width="" style="text-align: center;">Paciente</th>
+                                        <th width="" style="text-align: center;">Intervenção</th>
+                                        <th width="17%" style="text-align: center;">Dt Realização</th>
+                                        <th width="15%" style="text-align: center;">Comissão(R$)</th>
+                                        <th width="15%" style="text-align: center;">Desconto (R$)</th>
+                                        <!-- <th width="10%" style="text-align: center;">Usuario</th> -->
+                                        <th width="1%"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="ft-12">
+                                    <ng-template ngFor let-ListFinancGridU [ngForOf]="ListFinancGridR" let-i="index">
+                                        <tr>
+                                            <th width="" scope="row" style="text-align: center;">{{i+1}}</th>
+                                            <td width=""> {{ListFinancGridU.nm_paciente }} </td>
+                                            <td width=""> {{ListFinancGridU.nm_intervencao }} </td>
+                                            <td width="" style="text-align: center;"> {{ListFinancGridU.dt_realizacao
+                                                }} </td>
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{ListFinancGridU.valor_credito | formatCurrency}} </td>
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{ListFinancGridU.desconto | formatCurrency}} </td>
+                                            <td width="1%"></td>
+                                        </tr>
+                                    </ng-template>
+                                </tbody>
+
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-12">
+
+                        {{ startDateDia }} de {{ MesAnoComplt[startDateMesInt] }} de {{startDateAno}}
+
+
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-8   ">
+                        <div class="col-12 assinat">
+
+                        </div>
+                        <div class="col-12 assinatNome">
+                            {{SelectPrestadoNome}}
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col finc-sub-bts ">
+                        <div class="col mgt-15">
+                            <button type="button" class="btn btn-primary float-right" (click)="Imprimir()">Imprimir</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </ng-template>
+
+
+
+
+
+
+    <!-- /****************************************************************************************
+    * MODAL
+    * Detalhes pagamento
+    */ -->
+
+
+    <ng-template #templateModalID3>
+        <div class="modal-header tt-md-corp">
+            <h4 class="modal-title pull-left tt-md-name">Detalhe pagamento</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span class="tt-md-close" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <div class="row tituloReviboLinha">
+                    <!-- <div class="col-8 tituloRecibo"> <h4> RECIBO - {{SelectPrestadoNome}} </h4>  </div>  
+                    
+                    <div class="col-3 tituloValor  " currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" 
+                    >   {{ MD.valor_credito| formatCurrency}}  </div>  
+                    <div class="col-1 ">  </div>   -->
+
+                    <div class="col-12"> Total de comissão por intervenção:
+                        <label currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                            {{ TotalSelecPagar| formatCurrency}} </label>
+                    </div>
+                    <div class="col-12"> Total de comissão por repetição:
+                        <label currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                            {{ TotalSelecPagarRe| formatCurrency}} </label>
+                    </div>
+                    <div class="col-12"> Total de comissão por indicação:
+                        <label currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                            {{ TotalSelecPagarIn| formatCurrency}} </label>
+                    </div>
+                    <div class="col-12"> Débitos por repetição:
+                        <label currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                            {{ TotalSelecPagaDebt| formatCurrency}} </label>
+                    </div>
+                    <div class="col-12"> Total a pagar:
+                        <label currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                            {{ TotalSelecPagar| formatCurrency}} </label>
+                    </div>
+
+
+
+                </div>
+                <div class="row finc-sub-bts pa-t-15">
+                    <div class="col">
+                        <!-- <button type="button" class="btn btn-primary"  [disabled]="DellProcess"  >Ok</button> -->
+
+                        <button type="button" class="btn btn-primary fr" (click)="PagaExe()">Confirmar Pagamento?</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+
+    <ng-template #templateModalID4>
+        <div class="modal-header tt-md-corp">
+            <h4 class="modal-title pull-left tt-md-name">Cancelando Baixa</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span class="tt-md-close" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <div class="row tituloReviboLinha">
+
+                    <div class="col-12"> <strong>Parcela N°: </strong> {{MD.i}} </div>
+
+
+
+                    <div class="col-12 corP1"><strong> Detalhes: </strong><br>
+                        <strong>Pac.: </strong> {{ MD.nm_paciente }} {{ MD.sobrenome }} <br>
+                        <strong>Preferencia Pac.: </strong> {{MD.preferencia }} <br>
+
+                        <div>
+                            <strong>Trat.: </strong>{{ MD.tratamento }} <br>
+                            <strong>Inter.: </strong> {{ MD.nm_intervencao }} ( {{ MD.regiao }} ) <br>
+                            <strong>Histórico: </strong> {{ MD.historico }}
+                        </div>
+                    </div>
+
+                    <div class="col-3"> <strong>Realização: </strong>
+                        <label> {{MD.dtfinalizacaoSHW }} </label>
+                    </div>
+                    <div class="col-3"> <strong>Valor: </strong>
+                        <label currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                            {{MD.vlintervencao | formatCurrency}} </label>
+                    </div>
+                    <div class="col-3"> <strong>Crédito: </strong>
+                        <label currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                            {{MD.valor_credito | formatCurrency}} </label>
+                    </div>
+                    <div class="col-3"> <strong>Débito: </strong>
+                        <label currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                            {{MD.valor_parcela | formatCurrency}} </label>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+                <div class="row finc-sub-bts pa-t-15">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Fechar</button>
+                        <button type="button" class="btn btn-danger fr" (click)="CancelarBaixa(MD)">Cancelar baixa?</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+
+
+
+    <ng-template #templateModalID5>
+        <div class="modal-header tt-md-corp">
+            <h4 class="modal-title pull-left tt-md-name">Detalhar comissão</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span class="tt-md-close" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="showTBL">
+            <div>
+                <div class="row tituloReviboLinha">
+
+                    <div class="col-12"> <strong> Paciente: </strong> Elaine Fernandes Teixeira</div>
+                    <div class="col-12"> <strong> Tipo Tratamento: </strong> {{SelectItemTrat.nm_tipo_tratamento}}
+                    </div>
+
+                    <div class="col-12">
+
+                        <div class="finc-bd-tb">
+                            <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th width="" style="text-align: center;">#</th>
+                                        <th width="" style="text-align: center;">Intervenções</th>
+                                        <th width="" style="text-align: center;">Vl.(R$)</th>
+                                        <th width="" style="text-align: center;">Vl. Protético</th>
+                                        <th width="" style="text-align: center;">Vl. Imposto total</th>
+
+                                        <th width="" style="text-align: center;">Dt. finalização</th>
+                                        <th width="" style="text-align: center;">Prestador</th>
+                                        <th width="" style="text-align: center;">Efetivada</th>
+                                        <th width="1%"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="ft-12">
+                                    <ng-template ngFor let-list [ngForOf]="ListDTHA" let-i="index">
+                                        <tr (click)="OpenSegundoModal(list,templateModalID6,true)" [ngClass]="GetDTHLCorSt(list)">
+                                            <th width="" scope="row" style="text-align: center;">{{i+1}}</th>
+
+                                            <td width=""> {{list.nm_intervencao }} </td>
+                                            <!-- <td width=""> {{list.receber_paciente }} </td>
+                                                        <td width=""> {{list.valor_protetico }} </td>
+                                                        <td width=""> {{list.taxa_cartao }} </td> -->
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.receber_paciente | formatCurrency}} </td>
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.valor_protetico | formatCurrency}} </td>
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.taxa_cartao | formatCurrency}} </td>
+
+
+                                            <td width="" style="text-align: center;"> {{list.data_realizacao }} </td>
+                                            <td width=""> {{list.apelido }} </td>
+                                            <td width="" style="text-align: center;"> {{list.efetivadoShow }} </td>
+
+
+                                            <!-- <td width="5%" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                            {{list.vlintervencao | formatCurrency}} </td> -->
+
+                                            <td width="1%"></td>
+                                        </tr>
+                                    </ng-template>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="col-12"> <strong> Financeiro: </strong> {{ObjTblDthFinac.renegociado}} </div>
+
+                    <div class="col-12">
+
+                        <div class="finc-bd-tb">
+                            <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                                <thead class="thead-default">
+                                    <tr class="ft8">
+                                        <th width="" style="text-align: center;">#</th>
+                                        <th width="" style="text-align: center;">Nº Parcela</th>
+                                        <th width="" style="text-align: center;">Histórico</th>
+                                        <th width="" style="text-align: center;">Dt. Vencimento</th>
+                                        <th width="9%" style="text-align: center;">Vl. Parcela</th>
+                                        <th width="9%" style="text-align: center;">Crédito</th>
+                                        <th width="9%" style="text-align: center;">Desconto</th>
+                                        <th width="9%" style="text-align: center;" [class.esconde]="!op">Vl. Protético</th>
+                                        <th width="9%" style="text-align: center;" [class.esconde]="!op">Vl. Dentistas</th>
+                                        <th width="" style="text-align: center;">Efetivado</th>
+                                        <th width="" style="text-align: center;">Dt. Baixa</th>
+                                        <th width="1%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="ft-12">
+                                    <ng-template ngFor let-list [ngForOf]="ListDTHB" let-i="index">
+                                        <tr (click)="OpenSegundoModal(list,templateModalID7,false)" [class.FontRed]="list.cor">
+                                            <th width="" scope="row" style="text-align: center;">{{i+1}}</th>
+
+                                            <td width="" style="text-align: center;"> {{list.num_parcela }} </td>
+                                            <td width=""> {{list.historico }} </td>
+                                            <td width="" style="text-align: center;"> {{list.data_vencimento }} </td>
+                                            <!-- <td width=""> {{list.valor_parcela }} </td> -->
+                                            <!-- <td width=""> {{list.valor_credito }} </td> -->
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.valor_parcela | formatCurrency}} </td>
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.valor_credito | formatCurrency}} </td>
+
+                                            <td width="" style="text-align: center;"> {{list.desconto }} </td>
+                                            <!-- <td width=""  [class.esconde]="!op" >  {{list.vlprotetico }}  </td> -->
+                                            <!-- <td width=""  [class.esconde]="!op" >  {{list.valor_base }}  </td> -->
+                                            <td width="" [class.esconde]="!op" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.vlprotetico | formatCurrency}} </td>
+                                            <td width="" [class.esconde]="!op" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.valor_base | formatCurrency}} </td>
+
+
+                                            <td width="" style="text-align: center;"> {{list.debito_efetivadoShow }}
+                                            </td>
+                                            <td width="" style="text-align: center;"> {{list.data_baixa }} </td>
+
+
+                                            <!-- <td width="5%" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                        {{list.vlintervencao | formatCurrency}} </td> -->
+
+                                            <td width="1%"></td>
+                                        </tr>
+                                    </ng-template>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </div>
+
+
+                <!-- <div class="container-fluid "  > -->
+                <div class="col-12 ">
+                    <div class="row finc-sub-bts">
+
+
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Total tratamento:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ ListDTH_valor_total | formatCurrency}}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Total Pago:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ ListDTH_valor_pago | formatCurrency}}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Total a pagar:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ListDTH_valor_a_pagar | formatCurrency}}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">% de imposto total:</label>
+                                <!--  {{ ( list.comissao  / 100 ) | percent }} -->
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ ( ListDTH_taxa_forma_pag  / 100 ) | percent }}">
+                            </div>
+                        </div>
+
+
+                        <div class="col" [hidden]="!op">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Total protético:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ListDTH_tot_protetico | formatCurrency}}">
+                            </div>
+                        </div>
+                        <div class="col" [hidden]="!op">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Total protético pago:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ListDTH_tot_protetico_pg | formatCurrency}}">
+                            </div>
+                        </div>
+                        <div class="col" [hidden]="!op">
+                            <div class="form-group frm-lf ">
+                                <label class="lb-topo">Total protético a pagar:</label>
+                                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ListDTH_tot_protetico_apg | formatCurrency}}">
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="row finc-sub-bts pa-t-15">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Fechar</button>
+                        <!-- <button type="button" class="btn btn-danger fr" (click)="CancelarBaixa(MD)">Cancelar baixa?</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+
+
+
+    <ng-template #templateModalID6 class="ModalSegundoB">
+        <div class="modal-header tt-md-corp ModalB">
+            <h4 class="modal-title pull-left tt-md-name"> {{MDDTHB.nm_intervencao}} </h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+                <span class="tt-md-close" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="showTBL2">
+            <div>
+                <div class="row tituloReviboLinha">
+
+                    <div class="col-12">
+
+                        <div class="finc-bd-tb">
+                            <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <!-- <th width="" style="text-align: center;">#</th> -->
+                                        <th width="20%" style="text-align: center;">Intervenções</th>
+                                        <th width="" style="text-align: center;">Vl.(R$)</th>
+                                        <th width="" style="text-align: center;">Vl. Protético</th>
+
+                                        <th width="" style="text-align: center;">Prestador</th>
+                                        <th width="" style="text-align: center;">Dt. finalização</th>
+                                        <th width="" style="text-align: center;">Efetivada</th>
+                                        <th width="1%"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="ft-12">
+
+                                    <tr>
+                                        <!-- <th width="" scope="row"  style="text-align: center;">{{i+1}}</th> -->
+
+                                        <td width=""> {{MDDTHB.nm_intervencao }} </td>
+                                        <td width=""> {{MDDTHB.receber_paciente }} </td>
+                                        <td width=""> {{MDDTHB.valor_protetico }} </td>
+
+                                        <td width=""> {{MDDTHB.apelido }} </td>
+                                        <td width=""> {{MDDTHB.data_realizacao }} </td>
+                                        <td width=""> {{MDDTHB.efetivadoShow }} </td>
+
+
+                                        <!-- <td width="5%" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                    {{list.vlintervencao | formatCurrency}} </td> -->
+
+                                        <td width="1%"></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-12">
+
+                        <div class="finc-bd-tb">
+                            <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                                <thead class="thead-default">
+                                    <tr class="ft8">
+                                        <th width="" style="text-align: center;">#</th>
+
+                                        <th width="" style="text-align: center;">Dentista</th>
+                                        <th width="" style="text-align: center;">Comissão %</th>
+                                        <th width="" style="text-align: center;">Vl. comissão parcela</th>
+                                        <th width="" style="text-align: center;">Vl. intervencao parcela</th>
+                                        <th width="" style="text-align: center;">Vl. protético parcela</th>
+                                        <th width="1%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="ft-12">
+                                    <ng-template ngFor let-list [ngForOf]="ListDTHC" let-i="index">
+                                        <tr (click)="OpenSegundoModal(list)" [class.FontRed]="list.cor">
+                                            <th width="" scope="row" style="text-align: center;">{{i+1}}</th>
+
+
+                                            <td width=""> {{list.apelido }} </td>
+                                            <td width=""> {{ ( list.comissao / 100 ) | percent }} </td>
+                                            <!-- <td width=""> {{list.valor_comissao  }} </td>
+                                            <td width=""> {{list.valor_base }} </td>
+                                            <td width=""> {{list.vlprotetico }} </td> -->
+
+
+
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.valor_comissao | formatCurrency}} </td>
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.valor_base | formatCurrency}} </td>
+                                            <td width="" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.vlprotetico | formatCurrency}} </td>
+
+                                            <td width="1%"></td>
+                                        </tr>
+
+
+                                    </ng-template>
+
+                                    <tr style="font-weight: bold;">
+                                        <th colspan='2'>Totais</th>
+
+                                        <th> {{( MDDTHB.comissaoT / 100 ) | percent }} </th>
+                                        <th currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', precision: 2 }">
+                                            {{MDDTHB.tot_comissao | formatCurrency}} </th>
+                                        <th currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', precision: 2 }">
+                                            {{MDDTHB.tot_vl_base | formatCurrency}} </th>
+                                        <th currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', precision: 2 }">
+                                            {{MDDTHB.tot_protetico | formatCurrency}} </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </div>
+                <div class="row finc-sub-bts pa-t-15">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" (click)="modalRef2.hide()">Fechar</button>
+                        <!-- <button type="button" class="btn btn-danger fr" (click)="CancelarBaixa(MD)">Cancelar baixa?</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+
+
+
+
+
+
+
+    <ng-template #templateModalID7 class="ModalSegundoB">
+        <div class="modal-header tt-md-corp ModalB">
+            <h4 class="modal-title pull-left tt-md-name"> {{MDDTHB.historico}} </h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+                <span class="tt-md-close" aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="showTBL2">
+            <div>
+                <div class="row tituloReviboLinha">
+
+                    <div class="col-12">
+
+                        <div class="finc-bd-tb">
+                            <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                                <thead class="thead-default">
+                                    <tr class="ft8">
+                                        <th width="" style="text-align: center;">#</th>
+                                        <th width="20%" style="text-align: center;">Intervenções</th>
+                                        <th width="" style="text-align: center;">Dentista</th>
+                                        <th width="" style="text-align: center;">Comissão %</th>
+                                        <th width="" style="text-align: center;">Vl. comissão parcela</th>
+                                        <th width="" style="text-align: center;">Vl. intervencao parcela</th>
+                                        <th width="" style="text-align: center;">Vl. protético parcela</th>
+                                        <th width="1%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="ft-12">
+                                    <ng-template ngFor let-list [ngForOf]="ListDTHC" let-i="index">
+                                        <tr (click)="OpenSegundoModal(list)" [class.FontRed]="list.cor">
+                                            <th width="" scope="row" style="text-align: center;">{{i+1}}</th>
+                                            <td width=""> {{list.nm_intervencao }} </td>
+                                            <td width=""> {{list.apelido }} </td>
+                                            <!-- <td width=""> {{list.comissao }} % </td> -->
+                                            <td width="" currencyMask [options]="{ thousands: '.', decimal: ',', suffix: '%' }">
+                                                {{ (list.comissao / 100 ) | percent }} </td>
+                                            <!-- <td width=""> {{list.valor_comissao }} </td> -->
+                                            <!-- <td width=""> {{list.valor_base }} </td>
+                                            <td width=""> {{list.vlprotetico }} </td> -->
+                                            <th currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.valor_comissao | formatCurrency}} </th>
+                                            <th currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.valor_base | formatCurrency}} </th>
+                                            <th currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.vlprotetico | formatCurrency}} </th>
+
+                                            <!-- <td width="5%" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                                {{list.vlintervencao | formatCurrency}} </td> -->
+
+                                            <td width="1%"></td>
+                                        </tr>
+                                    </ng-template>
+
+                                    <tr style="font-weight: bold;">
+                                        <th colspan='3'>Totais</th>
+                                        <th> {{ ( MDDTHB.comissaoT / 100 ) | percent }} </th>
+                                        <th currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                            {{MDDTHB.tot_comissao | formatCurrency}} </th>
+                                        <th currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                            {{MDDTHB.tot_vl_base | formatCurrency}} </th>
+                                        <th currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                            {{MDDTHB.tot_protetico | formatCurrency}} </th>
+                                        <th width="1%"></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+                <div class="row finc-sub-bts pa-t-15">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" (click)="modalRef2.hide()">Fechar</button>
+                        <!-- <button type="button" class="btn btn-danger fr" (click)="CancelarBaixa(MD)">Cancelar baixa?</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+
+
+
+
+    <!-- DIV PROCESSANDO   -->
+    <div class="finc-ccc-processando" *ngIf="DivProssec">
+        <div class="processando">
+            <i class="fa fa-spinner fa-spin fa-3x fa-fw processando-i"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+
+
+
+
+</section>

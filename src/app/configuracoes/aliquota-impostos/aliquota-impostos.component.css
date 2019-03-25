@@ -1,0 +1,30 @@
+.processando{
+    top: 0;
+    position: relative;
+    float: left;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    height: 100%;
+    background-color: rgba(6, 6, 6, 0.38);
+}
+
+.loading{
+    position: absolute;
+    float: left;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.inputTextBotoesCadastro {
+    height: 32px!important;
+    font-size: 0.85rem;
+}
+
+ng-select.custom {
+    background-color: #fff;
+}
+
+.roundedButton {border-radius: 50%;}
+

@@ -1,0 +1,732 @@
+<!-- <p>  agenda-cadeira works!   </p> -->
+<section>
+    <div class="container-fluid">
+
+
+
+        <div class="row tt-pg-corp">
+            <div class="col tt-pg-name">
+                Configurações Cadeiras - {{SelectClinicaDados.nm_unidade_atendimento}}
+            </div>
+        </div>
+
+        <div class="row finc-sub-bts">
+
+
+
+            <div class="col">
+                <div class="form-group frm-topo ">
+                    <label class="lb-topo"> Unidade: </label>
+                    <!-- <select class="form-control finc-inpt" id="exampleSelect1"  [(ngModel)]="uni"  >
+                    <option *ngFor="let u of ListUnidade" [value]="u.value"   >{{u.label}}</option>
+                  </select> -->
+                    <ng-select style="background-color: #fff;" [options]="ListUnidade" [multiple]="multiple0" placeholder="{{UnidadeNome}}" [allowClear]="true"
+                        (selected)="onSelectUnidade($event)">
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group frm-topo ">
+                    <label class="lb-topo">Data Corte: </label>
+                    <form #myForm="ngForm" novalidate>
+                        <my-date-picker name="mydate" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions"
+                            [(ngModel)]="model" required></my-date-picker>
+                    </form>
+
+                    <!--  <input type="text" class="form-control finc-inpt"  placeholder="dd/mm/yyyy"> -->
+
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group frm-bt-unic">
+                    <button type="submit" class="btn btn-primary" (click)="buscarDataSelecionada()" [disabled]="BtBuscarProcess">
+                        <i class="fa fa-refresh" aria-hidden="true"></i> Exibir </button>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+        <!-- end row  customClass="tab-cadeiras"-->
+
+        <div class="row">
+            <div class="">
+                <tabset class="tab-cadeiras ">
+                    <tab heading="1° Cadeira " *ngIf="NumCadeiraClinica > 0 " #tab1 [active]="tabs[0].active" (select)="cadeiraSelect(1,tab1)">
+                    </tab>
+                    <tab heading="2° Cadeira " *ngIf="NumCadeiraClinica > 1 " (select)="cadeiraSelect(2,tab1)" [active]="CadeiraSelectTab == 2" > </tab>
+                    <tab heading="3° Cadeira " *ngIf="NumCadeiraClinica > 2 " (select)="cadeiraSelect(3,tab1)" [active]="CadeiraSelectTab == 3" > </tab>
+                    <tab heading="4° Cadeira " *ngIf="NumCadeiraClinica > 3 " (select)="cadeiraSelect(4,tab1)" [active]="CadeiraSelectTab == 4" > </tab>
+                    <tab heading="5° Cadeira " *ngIf="NumCadeiraClinica > 4 " (select)="cadeiraSelect(5,tab1)" [active]="CadeiraSelectTab == 5" > </tab>
+                    <tab heading="6° Cadeira " *ngIf="NumCadeiraClinica > 5 " (select)="cadeiraSelect(6,tab1)" [active]="CadeiraSelectTab == 6" > </tab>
+                    <tab heading="7° Cadeira " *ngIf="NumCadeiraClinica > 6 " (select)="cadeiraSelect(7,tab1)" [active]="CadeiraSelectTab == 7" > </tab>
+                    <tab heading="8° Cadeira " *ngIf="NumCadeiraClinica > 7 " (select)="cadeiraSelect(8,tab1)" [active]="CadeiraSelectTab == 8" > </tab>
+                    <tab heading="9° Cadeira " *ngIf="NumCadeiraClinica > 8 " (select)="cadeiraSelect(9,tab1)" [active]="CadeiraSelectTab == 9" > </tab>
+                    <tab heading="10° Cadeira " *ngIf="NumCadeiraClinica > 9 " (select)="cadeiraSelect(10,tab1)" [active]="CadeiraSelectTab == 10" > </tab>
+                    <tab heading="11° Cadeira " *ngIf="NumCadeiraClinica > 10 " (select)="cadeiraSelect(11,tab1)" [active]="CadeiraSelectTab == 11" > </tab>
+                    <tab heading="12° Cadeira " *ngIf="NumCadeiraClinica > 11 " (select)="cadeiraSelect(12,tab1)" [active]="CadeiraSelectTab == 12" > </tab>
+                    <tab heading="13° Cadeira " *ngIf="NumCadeiraClinica > 12 " (select)="cadeiraSelect(13,tab1)" [active]="CadeiraSelectTab == 13" > </tab>
+                    <tab heading="14° Cadeira " *ngIf="NumCadeiraClinica > 13 " (select)="cadeiraSelect(14,tab1)" [active]="CadeiraSelectTab == 14" > </tab>
+                    <tab heading="15° Cadeira " *ngIf="NumCadeiraClinica > 14 " (select)="cadeiraSelect(15,tab1)" [active]="CadeiraSelectTab == 15" >
+                        I've got an HTML heading, and a select callback. Pretty cool!
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+        <!-- end row -->
+
+        <div class="row ">
+
+            <!-- div processando  -->
+            <!-- DIV PROCESSANDO  *ngIf="bTFiltarProssec" -->
+            <div class="finc-ccc-processando" *ngIf="AcProssec">
+                <div class="processando">
+                    <i class="fa fa-refresh  fa-spin fa-3x fa-fw processando-i"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+
+
+
+            <div class="col gerdRow">
+                <!-- cadeira selecionada - {{CadeiraSelectTab}}     HrCadeiraOcultas[DiasSemanaAtual[d-1]].length  > 0 -->
+                <div class="row">
+                    <div class="divcol7 " *ngFor="let d of DiasSemanaNum">
+                        <div class="col-12 CadColuna">
+                            <div class="col-12  colunaTitulo AgDrAddcolunaGrids">
+                                <div> {{ DiasSemanaComplt[d] }}
+                                    <strong 
+                                        *ngIf="existeHrDrForaPadrao(DiasSemanaAtual[d-1])" 
+                                        class="alertLetraRed itenlink"
+                                        (click)="ShowHrCadDrForaPrad(d,DiasSemanaAtual[d-1],templateModalID6)" 
+                                        placement="auto"
+                                        tooltip="Existe Horarios de atendimentos marcados fora do padrão escolhido!! clique para verificar. ">?</strong>
+                                </div>
+                                <div> {{ DiasSemanaAtual[d-1] }} </div>
+                            </div>
+                            <div class="cadHorarios">
+                                <div (click)="ClickOpenModal(templateModalID1,templateModalID2,X,DiasSemanaAtual[d-1],d)" class="hora {{X.stlClass}}" [style.height.px]="X.height"
+                                    *ngFor="let X of DrHorariosDia[DiasSemanaAtual[d-1]];let i = index ">
+                                    <!-- {{M.hora}} -->
+                                    <div class="" style="width: 100%">
+                                        <strong> {{X.horaPeriodo}} </strong>
+                                    </div>
+                                    <div *ngIf="!X.livre" style="width: 100%">
+                                        <strong> {{X.prestador}} </strong>
+                                        <div class="drDupliRela">
+                                            <!-- (click)="OpenDuplicado(X,DiasSemanaAtual[d-1],d)" TemCadeiraDrDupli(X.aph_chave) -->
+                                            <div *ngIf="TemCadeiraDrDupli(X.aph_chave)" class="drDupli" tooltip="Existe cadeiras duplicadas! clique para visualizar. "
+                                                placement="auto">
+
+                                                ?
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- {{X.height }}  {{X.dif}}  -->
+                                    <div *ngIf="X.dif > 1" class="row">
+                                        <div class="col-5"> Inicio:</div>
+                                        <div class="col-7">{{X.dtini}} </div>
+                                    </div>
+                                    <div *ngIf="X.dif > 1" class="row">
+                                        <div class="col-5"> Fim:</div>
+                                        <div class="col-7">{{X.dtfin}} </div>
+                                    </div>
+                                    <!-- <div *ngIf="!X.livre" style="width: 100%">{{X.height}}  </div>  -->
+                                    <!-- <div *ngIf="!X.livre" style="width: 100%">{{X.dif > 1}}     </div>  -->
+                                    <!-- {{ HorarioAgendado(DiasSemanaAtual[d-1], M.hora) }} -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+        </div>
+        <!-- end row -->
+
+
+
+
+    </div>
+
+
+
+</section>
+
+
+<ng-template #templateModalID1>
+    <div class="modal-header tt-md-corp">
+        <h4 class="modal-title pull-left tt-md-name">Adicionar prestador as {{ObjHorarioAgendar.horaIni}} {{MD.NomeDiaSelect }}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span class="tt-md-close" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="modal-body">
+            <!-- This is static modal, backdrop click will not close it.
+        Click <b>&times;</b> to close modal. -->
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group frm-mod ">
+                            <!-- [(ngModel)]="MD.PagForm"     -->
+                            <label class="lb-form"> Tipo: </label>
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.TipoAddAg" (change)="ZerarErrosMSGADD()">
+                                <option *ngFor="let X of SelectTipoAgDr" [value]="X.value">{{X.nome}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-H1" *ngIf="MD.TipoAddAg == '1'">
+                    <div class="col-12">
+                        <div class="form-group frm-mod ">
+                            <label class="lb-form"> Motivo: </label>
+                            <input type="text" class="form-control finc-inpt" value="" [(ngModel)]="MD.motivo">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row row-H1" *ngIf="ErroMotivo">
+                    <div class="col-12">
+                        <div class="alert alert-danger">{{ERROMSGMotivo}}</div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="row row-H1" *ngIf="MD.TipoAddAg == '0'">
+                    <div class="col-9">
+                        <div class="form-group frm-mod  ">
+                            <!-- [(ngModel)]="MD.PagForm"   (change)="onchagerPagForm()"   -->
+                            <label class="lb-form"> Prestador: </label>
+                            <ng-select [options]="DrUnidade" [multiple]="multiple0" placeholder="{{PrestadorSelected}}" [allowClear]="true" (selected)="onSelectedPrestCadAdd($event)"
+                                (deselected)="deselectSelectedPrestCad()">
+                                <!-- (deselected)="deselectSelected($event)">   -->
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group frm-mod ">
+                            <label class="lb-form"> Duração: </label>
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.duracao">
+                                <option *ngFor="let X of IntervaloConsultas" [value]="X">{{X}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-H1" *ngIf="ErroPrestador">
+                    <div class="col-12">
+                        <div class="alert alert-danger">{{ERROMSGPrestador}}</div>
+                    </div>
+                </div>
+
+
+
+                <div class="row row-H1">
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Data Inicio: </label>
+                            <form #myForm="ngForm" novalidate>
+                                <my-date-picker name="mydate" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions"
+                                    [(ngModel)]="modelfix" disabled="true" placeholder="" required></my-date-picker>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Data Fim: </label>
+                            <form #myForm="ngForm" novalidate>
+                                <my-date-picker name="mydate1" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptionsB"
+                                    [(ngModel)]="model1" placeholder="" required></my-date-picker>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Dia Semana: </label>
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.semana">
+                                <option *ngFor="let X of DiasSemanaNum" [value]="X">{{DiasSemanaComplt[X]}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row row-H1" *ngIf="ErroData">
+                    <div class="col-12">
+                        <div class="alert alert-danger">{{ERROMSGDATA}}</div>
+                    </div>
+                </div>
+
+                <div class="row row-H1">
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form "> Hora Inicio: </label>
+                            <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.HoraINI}}">
+                            <!-- <timepicker [(ngModel)]="mytimeCad1" [showMeridian]="false"  [hourStep]="1" [minuteStep]="1" class="tbl-Min"  ></timepicker> -->
+                            <!-- <select class="form-control finc-inpt"    >
+                            <option *ngFor="let X of DiasSemanaNum" [value]="X"    >{{DiasSemanaComplt[X]}}</option>
+                        </select> -->
+
+                        </div>
+                    </div>
+
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Hora Fim: </label>
+                            <!-- <timepicker [(ngModel)]="mytimeCad2" [showMeridian]="false" [hourStep]="1" [minuteStep]="1"  class="tbl-Min"  ></timepicker> -->
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.HoraFim">
+                                <option *ngFor="let X of MD.HoraFimArray" [value]="X">{{X}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Salto: </label>
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.Pulo">
+                                <option *ngFor="let X of MD.PuloArray" [value]="X.value">{{X.nome}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-H1" *ngIf="ErroHoraFim">
+                    <div class="col-12">
+                        <div class="alert alert-danger">{{ERROMSGHoraFim}}</div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="row finc-sub-bts pa-t-15 modal-footer">
+
+                    <!-- <button type="button" class="btn btn-primary" [disabled]="DellProcess"   >Ok</button> (click)="ConfirmarDellCred(template4ModalID,true)" -->
+                    <button type="button" class="btn btn-primary" (click)="AddDrAg(MD)">Adicionar</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #templateModalID2>
+    <div class="modal-header tt-md-corp">
+        <h4 class="modal-title pull-left tt-md-name">Alterar {{MD.NomeDiaSelect}} {{MD.HoraINI}} as {{MD.HoraFim}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span class="tt-md-close" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="modal-body">
+            <!-- This is static modal, backdrop click will not close it.
+        Click <b>&times;</b> to close modal. -->
+            <div>
+
+                <div class="row row-H1">
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Data Inicio: </label>
+                            <form #myForm="ngForm" novalidate>
+                                <my-date-picker name="mydate" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions" [(ngModel)]="modelfix"
+                                    disabled="true" placeholder="" required></my-date-picker>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Data Fim: </label>
+                            <form #myForm="ngForm" novalidate>
+                                <my-date-picker name="mydate1" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptionsB" [(ngModel)]="model1"
+                                    disabled="true" placeholder="" required></my-date-picker>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Dia Semana: </label>
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.semana" disabled="true">
+                                <option *ngFor="let X of DiasSemanaNum" [value]="X">{{DiasSemanaComplt[X]}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-H1">
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form "> Hora Inicio: </label>
+                            <!-- <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.HoraINI}}" > -->
+                            <!-- <timepicker [(ngModel)]="mytimeCad1" [showMeridian]="false"  [hourStep]="1" [minuteStep]="1" class="tbl-Min"  ></timepicker> -->
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.HoraINI" (change)="HoraIniMaiorFim(MD)">
+                                <option *ngFor="let X of MD.HoraIniIntArray" [value]="X">{{X}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Hora Fim: </label>
+                            <!-- <timepicker [(ngModel)]="mytimeCad2" [showMeridian]="false" [hourStep]="1" [minuteStep]="1"  class="tbl-Min"  ></timepicker> -->
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.HoraFim">
+                                <option *ngFor="let X of MD.HoraFimArray" [value]="X">{{X}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> UNIDADE: </label>
+                            <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.unidade}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-H1" *ngIf="MD.TipoAddAg == '0'">
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form "> Prestador: </label>
+                            <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.Prestador}}">
+                            <!-- <timepicker [(ngModel)]="mytimeCad1" [showMeridian]="false"  [hourStep]="1" [minuteStep]="1" class="tbl-Min"  ></timepicker> -->
+                            <!-- <select class="form-control finc-inpt"    >
+                                    <option *ngFor="let X of DiasSemanaNum" [value]="X"    >{{DiasSemanaComplt[X]}}</option>
+                                </select> -->
+
+                        </div>
+                    </div>
+
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Duração: </label>
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.duracao">
+                                <option *ngFor="let X of IntervaloConsultas" [value]="X">{{X}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Cadeira: </label>
+                            <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.cadeira}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-H1" *ngIf="MD.TipoAddAg == '1'">
+                    <div class="col-12">
+                        <div class="form-group frm-mod ">
+                            <label class="lb-form"> Motivo: </label>
+                            <input type="text" class="form-control finc-inpt" value="" [(ngModel)]="MD.motivo">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="row finc-sub-bts pa-t-15">
+                    <div class="col-12 modal-footer md-padd-but">
+                        <!-- <button type="button" class="btn btn-primary"  [disabled]="DellProcess"  >Ok</button> -->
+                        <button type="button" class="btn btn-primary" [hidden]="!MD.alterarHoje" (click)="AlterarHoje(MD,templateModalID5)" (click)="modalRef.hide()">
+                        Altera Hoje </button>
+                        <button type="button" class="btn btn-primary" [hidden]="!MD.TemCadeiraDrDupli" (click)="OpenDuplicado(MD,templateModalID4)"
+                            (click)="modalRef.hide()"> Duplicados </button>
+                        <button type="button" class="btn btn-primary" (click)="Alterar(MD,templateModalID3)">Alterar </button>
+                        <button type="button" class="btn btn-warning" [hidden]="MD.Dtigual " (click)="ExcluirHoje(MD,templateModalID3)">Excluir Hoje</button>
+                        <button type="button" class="btn btn-danger" [hidden]="MD.Dtigual " (click)="ExcluirEmDiante(MD,templateModalID3)">Excluir em Diante</button>
+                        <button type="button" class="btn btn-danger" [hidden]="!MD.Dtigual " (click)="Excluir(MD,templateModalID3)">Excluir</button>
+                        <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Fechar </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+
+
+
+<ng-template #templateModalID3>
+    <div class="modal-header tt-md-corp">
+        <h4 class="modal-title pull-left tt-md-name">ERRO {{MD.HoraINI}} as {{MD.HoraFim}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span class="tt-md-close" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="modal-body">
+            <!-- This is static modal, backdrop click will not close it.
+          Click <b>&times;</b> to close modal. -->
+            <div>
+
+
+                <div class="row row-H1" *ngIf="MD.TipoAddAg == '0'">
+
+                </div>
+                <div class="row finc-sub-bts pa-t-15">
+                    <div class="col-6">
+                        <!-- <button type="button" class="btn btn-primary"  [disabled]="DellProcess"  >Ok</button> -->
+                        <button type="button" class="btn btn-primary" (click)="Alterar(MD)">Alterar</button>
+                        <button type="button" class="btn btn-warning" (click)="ExcluirHoje(MD)">Excluir Hoje</button>
+                        <button type="button" class="btn btn-primary" (click)="ExcluirEmDiante(MD)">Excluir em Diante </button>
+                        <button type="button" class="btn btn-primary" (click)="Excluir(MD)">Excluir Tudo</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+
+
+<ng-template #templateModalID4>
+    <div class="modal-header tt-md-corp">
+        <h4 class="modal-title pull-left tt-md-name">Cadeiras Duplicadas no Horário {{MD.HoraINI}} as {{MD.HoraFim}} do Dia {{MD.Dia}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span class="tt-md-close" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="modal-body">
+            <!-- This is static modal, backdrop click will not close it.
+              Click <b>&times;</b> to close modal. -->
+            <div>
+
+                <div class="col ">
+                    <div class="row listCorFundo" *ngFor="let Drp of DrCadeDupliShow; let i = index ">
+                        <div class="col-9  ">
+                            <div class="form-group frm-mod  "  >
+                                <!-- <label class="lb-form "> Prestador: {{Drp | json }} </label> -->
+                                <label class="lb-form "  > Prestador:
+                                    <strong>{{Drp.dados.prestador }}</strong> , Data Inicio:
+                                    <strong> {{Drp.dados.data_inicio }}</strong>, Data Fim:
+                                    <strong>{{Drp.dados.data_fim }}</strong> , Horário de:
+                                    <strong>{{Drp.dados.horario_inicio }}</strong> as
+                                    <strong>{{Drp.dados.horario_fim }}</strong>. </label>
+                                <!-- <input type="text" class="form-control finc-inpt" disabled="true" value="{{MD.HoraINI}}" > -->
+                            </div>
+                        </div>
+                        <div class="col-2 ">
+                            <button type="button" class="btn btn-danger" [disabled]="DellProcess" (click)="RemoverDulp(Drp)">Remover</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row finc-sub-bts ma-t-25">
+                    <div class="col">
+                        <!-- <button type="button" class="btn btn-primary"  [disabled]="DellProcess"  >Ok</button> -->
+                        <!-- <button type="button" class="btn btn-primary" (click)="Alterar(MD)">Alterar</button>
+                        <button type="button" class="btn btn-warning" (click)="ExcluirHoje(MD)">Excluir Hoje</button>
+                        <button type="button" class="btn btn-primary" (click)="ExcluirEmDiante(MD)">Excluir em Diante </button> -->
+                        <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Fechar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+
+
+
+<ng-template #templateModalID5>
+    <div class="modal-header tt-md-corp">
+        <h4 class="modal-title pull-left tt-md-name">Alterar Hoje {{MD.NomeDiaSelect}} {{MD.HoraINI}} as {{MD.HoraFim}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span class="tt-md-close" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="modal-body">
+            <!-- This is static modal, backdrop click will not close it.
+            Click <b>&times;</b> to close modal. -->
+            <div>
+
+                <div class="row row-H1">
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Data Inicio: </label>
+                            <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.Dia}}">
+                            <!-- <form #myForm="ngForm" novalidate>
+                                    <my-date-picker name="mydate" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions" [(ngModel)]="modelfix"
+                                        disabled="true" placeholder="" required></my-date-picker>
+                                </form> -->
+                        </div>
+                    </div>
+
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Data Fim: </label>
+                            <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.Dia}}">
+                            <!-- <form #myForm="ngForm" novalidate>
+                                    <my-date-picker name="mydate1" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptionsB" [(ngModel)]="model1"
+                                        disabled="true" placeholder="" required></my-date-picker>
+                                </form> -->
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Dia Semana: </label>
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.semana" disabled="true">
+                                <option *ngFor="let X of DiasSemanaNum" [value]="X">{{DiasSemanaComplt[X]}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-H1">
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form "> Hora Inicio: </label>
+                            <!-- <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.HoraINI}}" > -->
+                            <!-- <timepicker [(ngModel)]="mytimeCad1" [showMeridian]="false"  [hourStep]="1" [minuteStep]="1" class="tbl-Min"  ></timepicker> -->
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.HoraINI" (change)="HoraIniMaiorFim(MD)">
+                                <option *ngFor="let X of MD.HoraIniIntArray" [value]="X">{{X}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Hora Fim: </label>
+                            <!-- <timepicker [(ngModel)]="mytimeCad2" [showMeridian]="false" [hourStep]="1" [minuteStep]="1"  class="tbl-Min"  ></timepicker> -->
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.HoraFim">
+                                <option *ngFor="let X of MD.HoraFimArray" [value]="X">{{X}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> UNIDADE: </label>
+                            <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.unidade}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-H1" *ngIf="MD.TipoAddAg == '0'">
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form "> Prestador: </label>
+                            <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.Prestador}}">
+                            <!-- <timepicker [(ngModel)]="mytimeCad1" [showMeridian]="false"  [hourStep]="1" [minuteStep]="1" class="tbl-Min"  ></timepicker> -->
+                            <!-- <select class="form-control finc-inpt"    >
+                                        <option *ngFor="let X of DiasSemanaNum" [value]="X"    >{{DiasSemanaComplt[X]}}</option>
+                                    </select> -->
+
+                        </div>
+                    </div>
+
+                    <div class="col-4 pd-r0">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Duração: </label>
+                            <select class="form-control finc-inpt" [(ngModel)]="MD.duracao">
+                                <option *ngFor="let X of IntervaloConsultas" [value]="X">{{X}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group frm-mod  ">
+                            <label class="lb-form"> Cadeira: </label>
+                            <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{MD.cadeira}}">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row finc-sub-bts pa-t-15">
+                    <div class="col-12 modal-footer md-padd-but">
+                        <!-- <button type="button" class="btn btn-primary"  [disabled]="DellProcess"  >Ok</button> -->
+                        <button type="button" class="btn btn-danger" [disabled]="DellProcess" (click)="AlterarHojeExe(MD)">Alterar</button>
+                        <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Cancelar </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+
+
+
+<ng-template #templateModalID6>
+    <div class="modal-header tt-md-corp">
+        <h4 class="modal-title pull-left tt-md-name">Cadeiras com início fora do Padrão na:  {{MD.Dia}} - {{MD.D}} </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span class="tt-md-close" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="modal-body">
+            <!-- This is static modal, backdrop click will not close it.
+              Click <b>&times;</b> to close modal. -->
+            <div>
+
+                <div class="col ">
+                    <div class="row listCorFundo" *ngFor="let List of this.HrCadeiraOcultas[MD.D]; let i = index ">
+                        <div class="col-12  ">
+                            <div class="form-group frm-mod  " (click)="ClickOpenModal(null,templateModalID2,List.dadosAll,MD.D,MD.DNum)" >
+                                <!-- <label class="lb-form "> Prestador: {{List | json }} </label> -->
+                                <label class="lb-form showAlter " 
+                                placement="auto"
+                                tooltip="Clique para alterar horários fora do padrão"
+                                > Prestador:
+                                    <strong>{{List.prestador }}</strong> , Data Inicio:
+                                    <strong> {{List.data_inicio }}</strong>, Data Fim:
+                                    <strong>{{List.data_fim }}</strong> , Horário de:
+                                    <strong>{{List.horario_inicio }}</strong> as
+                                    <strong>{{List.horario_fim }}</strong>. </label>
+                                <!-- <input type="text" class="form-control finc-inpt" disabled="true" value="{{MD.HoraINI}}" > -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row finc-sub-bts ma-t-25">
+                    <div class="col">
+                        <!-- <button type="button" class="btn btn-primary"  [disabled]="DellProcess"  >Ok</button> -->
+                        <!-- <button type="button" class="btn btn-primary" (click)="Alterar(MD)">Alterar</button>
+                        <button type="button" class="btn btn-warning" (click)="ExcluirHoje(MD)">Excluir Hoje</button>
+                        <button type="button" class="btn btn-primary" (click)="ExcluirEmDiante(MD)">Excluir em Diante </button> -->
+                        <button type="button" class="btn btn-primary fr" (click)="modalRef.hide()">Fechar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>

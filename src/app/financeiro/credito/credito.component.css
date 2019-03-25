@@ -1,0 +1,115 @@
+.ptop15{
+    padding-top: 15px;
+}
+
+.pdl-0{
+    padding-left: 0px;
+}
+.mgt-5{
+    margin-top: 5px;
+}
+
+.mgb-0{
+    margin-bottom: 0px;
+}
+.mgb-10{
+    margin-bottom: 10px;
+}
+
+.mgr-15{
+    margin-right: 15px;
+}
+
+.table-Debito-td{
+    color: red;
+}
+
+.table-excluir-col-SIM>label::before {
+    content: "Sim";
+}
+
+
+.table-excluir-col-NAO>label::before {
+    content: "Não";
+}
+
+
+.table-hover-fic-excluir {
+    background-color: rgba(214, 34, 11, 0.459) !important;
+    color: #FFF !important;
+    cursor: pointer;
+}
+
+
+.table-hover-fic-nova {
+    background-color: rgba(11, 14, 214, 0.459) !important;
+    color: #FFF !important;
+    cursor: pointer;
+}
+
+.table-hover-fic-alterado {
+    background-color: rgba(214, 167, 11, 0.459) !important;
+    color: #333 !important;
+    cursor: pointer;
+}
+
+.modal-lgA{
+    width: 90%;
+}
+
+
+.obrigat{
+    color: red !important;
+}
+
+
+
+.processando{
+    top: 0;
+    position: relative;
+    float: left;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    height: 100%;
+    background-color: rgba(6, 6, 6, 0.38);
+}
+
+.processando-i{
+    margin-top: 10%;
+}
+
+.finc-ccc-processando{
+    top: 0;
+    position: absolute;
+    float: left;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* height: 45%; */
+    /* height: 400; */
+    /* height: 270px; */
+
+}
+
+
+.showNumCart>label::before{
+    content: " : ";
+}
+
+
+.showNumCart>label{
+    font-weight: bold;
+}
+
+
+.ft-10{
+    font-size: 10px !important;
+}
+
+.ft-12{
+    font-size: 12px !important;
+}
+.clr-red{
+    color: red;
+}

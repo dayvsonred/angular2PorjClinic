@@ -1,0 +1,830 @@
+<!-- <p>  conta-corrente-clinica works!</p> -->
+<section>
+  <div class="container-fluid" >
+   
+
+
+    <div class="row tt-pg-corp">
+      <div class="col tt-pg-name">
+        Conta Corrente Clínica - {{SelectClinicaDados.nm_unidade_atendimento}}
+      </div>
+    </div>
+
+    
+    <div class="row finc-top-bord">
+      <div class="col">
+          <div class="row">
+              <div class="col finc-bt-top "  >
+                  <a href="{{SelectClinicaDados.BaseIndex}}" > <i class="fa fa-reply finc-i-col-b" aria-hidden="true"></i> <strong> Voltar </strong> </a>
+              </div>
+              <div class="col finc-bd-l finc-bt-top" (click)="NovoDebto(templateModalID)" >
+                  <i class="fa fa-minus finc-i-col-b" aria-hidden="true"></i> <strong> Débito </strong>
+              </div>
+              <div class="col finc-bd-l finc-bt-top" (click)="NovoCredito(templateModalID)"  >
+                  <i class="fa fa-plus finc-i-col-b" aria-hidden="true"></i> <strong> Crédito </strong>
+              </div>
+              <div class="col finc-bd-l finc-bt-top"  (click)="AlterarDebto(templateModalID)"  >
+                  <i class="fa fa-pencil-square-o finc-i-col-b" aria-hidden="true"></i> <strong> Altera </strong>
+              </div>
+              <div class="col finc-bd-l finc-bt-top"  (click)="ConfirmarDellCred(template4ModalID,false)"  >
+                  <i class="fa fa-times finc-i-col-b" aria-hidden="true"></i> <strong> Elimina </strong>
+              </div>
+              <div class="col finc-bd-l finc-bt-top"   (click)="print()" >
+                  <i class="fa fa-file-pdf-o finc-i-col-b" aria-hidden="true"></i> <strong> Imprimir </strong>
+              </div>
+        </div>
+      </div>
+      <div class="col-5 finc-bd-l">
+        <div class="row">
+          <div class="col-5 finc-bt-top"  (click)="ShowContsEssenciais(template2ModalID)"  >
+              <i class="fa fa-calendar finc-i-col-b" aria-hidden="true"></i> <strong>  Contas Essenciais </strong> ({{NumContasEssenciais}})
+          </div>
+        </div>
+      </div>
+    </div> <!-- end row -->
+
+     <div class="row finc-sub-bts"> 
+
+
+        <div class="col">
+            <div class="row">
+                  <div class="col">
+                    <div class="form-group frm-topo ">
+                        <label class="lb-topo" >Início </label>
+                        <form #myForm="ngForm" novalidate>
+                            <my-date-picker name="mydate" [locale]="locale"   [brmasker]="{mask:'00/00/0000', len:10}"   [options]="myDatePickerOptions" [(ngModel)]="model"   placeholder="{{DataHojeini}}"  required></my-date-picker>
+                        </form>
+
+                        <!--  <input type="text" class="form-control finc-inpt"  placeholder="dd/mm/yyyy"> -->
+                          
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group frm-topo ">
+                        <label class="lb-topo" >Fim</label>
+                        <form #myForm="ngForm" novalidate>
+                            <my-date-picker name="mydate1" [locale]="locale"  [brmasker]="{mask:'00/00/0000', len:10}"   [options]="myDatePickerOptions" [(ngModel)]="model1" placeholder="{{DataHojeFim}}" required></my-date-picker>
+                        </form>
+                    </div>
+                  </div>
+            </div>
+        </div>
+
+      <!--  FOI SOLICITADO PARA DESABILITAR O CAMPO PODE SER Q NAO ESTA SENDO MUITO UTILIZADO
+      <div class="col">
+        <div class="form-group frm-topo ">
+            <label class="lb-topo" > Pesquisar </label>
+              <input type="text" class="form-control finc-inpt"  placeholder="Pesquisar"  (click)="myMethod()" [(ngModel)]="pesqString"  >
+        </div>
+      </div> -->
+
+
+      <div class="col">
+          <div class="row">
+
+                <div class="col">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" >Selecione a Conta: {{ contaTipo  }}</label>
+                        <select class="form-control finc-inpt" [(ngModel)]="tipotratamento"  >
+                          <option value="0" >Selecione</option>
+                          <option *ngFor="let contaTipo of contasTipo" [value]="contaTipo.chave">{{contaTipo.nm_tipo_tratamento}}</option>
+                        </select>
+                  </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group frm-topo " >
+                        <label class="lb-topo" >Visualização:</label>
+                          <select class="form-control finc-inpt" id="exampleSelect1"  [(ngModel)]="visualizar"  >
+                            <option *ngFor="let visualizacao of SlVisualizacao" [value]="visualizacao.value"   >{{visualizacao.nome}}</option>
+                          </select>
+                    </div>
+                </div>
+          </div>
+      </div>
+
+      <div class="col-2">
+        <div class="row">
+            <div class="col">
+                  <div class="form-group frm-topo " >
+                      <label class="lb-topo" >Forma de Pagamento:</label>
+                        <select class="form-control finc-inpt"  [(ngModel)]="fpPagamento" (change)="onSelectFormPg(fpPagamento)"  >
+                          <option  [value]="0" >Todas as formas de pagamento</option>
+                          <option *ngFor="let fp of ListFormaAllPag" [value]="fp.chave"   >{{fp.nm_tipo_pagamento}}</option>
+                        </select>
+                  </div>
+            </div>
+        </div>
+        
+      </div>
+      <div class="col">
+        <div class="form-group frm-topo ">
+            <label class="lb-topo" > Unidade </label>
+            <!-- <select class="form-control finc-inpt" id="exampleSelect1"  [(ngModel)]="uni"  >
+              <option *ngFor="let u of ListUnidade" [value]="u.value"   >{{u.label}}</option>
+            </select> -->
+            <ng-select  style="background-color: #fff;"
+                [options]="ListUnidade"
+                [multiple]="multiple0"
+                placeholder="{{UnidadeNome}}"
+                [allowClear]="true"
+                (selected)="onSelectUnidade($event)">
+            </ng-select>
+        </div>
+      </div>
+      <div class="col-1">
+        <div class="form-group frm-bt-unic">
+           <button type="submit" class="btn btn-primary" (click)="MetPesquisarGrid(FincGridRelatorio)" [disabled]="bTFiltarProssec"  > <i class="fa fa-search" aria-hidden="true"></i>  Filtrar </button>
+        </div>
+      </div>
+
+      
+      
+
+
+     </div> <!-- end row -->
+
+    <div class="row">
+      <!-- <div class="container-fluid finc-lista-relatorio"  > -->
+      <div class="col finc-lista-relatorio"  #FincGridRelatorio >    
+
+
+        <div class="finc-bd-tb">  
+          <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+              <thead class="thead-default">
+                <tr>
+                  <th width ="5%"  style="text-align: center;"  >#</th>
+                  <th width ="5%"  style="text-align: center;"  >Data</th>
+                  <th width ="18%" style="text-align: center;"  >Grupo & Categoria	</th>
+                  <th width ="10%" style="text-align: center;"  >Pac./Func.</th>
+                  <th width ="5%"  style="text-align: center;"  >Tratamento</th>
+                  <th width ="10%" style="text-align: center;"  >Forma PG</th>
+                  <th width ="10%" style="text-align: center;"  >Tipo</th>
+                  <th width ="13%" style="text-align: center;"  >Histórico</th>
+                  <th width ="10%" >Func. Lançou</th>
+                  <th width ="7%" >Débito</th>
+                  <th width ="7%" >Crédito</th>		
+                </tr>
+              </thead>
+          </table>
+        </div>
+        <div class="finc-bd-tb finc-table-responsive">  
+          <table class="table table-striped table-hover-fic finc-table" id="finc-tb">
+              <tbody class="ft-12">
+                <ng-template ngFor let-ListFinancClinica [ngForOf] = "ListFinancClinicaGrid"  let-i = "index"> 
+                <!--    <tr  (click)="FincaTrSelect(ListFinancClinica,i)" [class.table-hover-fic-Selected]="i == FincTrselectedRow"  [class.finc-td-debito]="ListFinancClinica.tipo_movimento == 'D'"   *ngFor="let ListFinancClinica of ListFinancClinicaGrid; let i = index " > -->
+                <tr  (click)="FincaTrSelect(ListFinancClinica,i,templateModalID)" [class.table-hover-fic-Selected]="i == FincTrselectedRow"  [class.finc-td-debito]="ListFinancClinica.tipo_movimento == 'D'"    >
+                  <th width ="5%" scope="row" style="text-align: center;"  >{{i+1}}</th>
+                  <td width ="5%"  > {{ListFinancClinica.dataShow}} </td>
+                  <td width ="18%" > {{ListFinancClinica.nm_grupo_financeiro}} <br> {{ListFinancClinica.nm_categoria_plano_conta}} </td>
+                  <td width ="10%" > {{ListFinancClinica.nome_tp}} </td>
+                  <td width ="5%"  > {{ListFinancClinica.data2}} </td>
+                  <td width ="10%" > {{ListFinancClinica.FormaPagName }} </td> 
+                  <td width ="10%" > {{ListFinancClinica.nm_tipo_tratamento}} </td>
+                  <td width ="13%" > {{ListFinancClinica.historico}} </td>
+                  <td width ="10%" > {{ListFinancClinica.nm_prestador}} </td>
+                  <td width ="7%"  > {{ListFinancClinica.valor_parcela | formatCurrency }} </td>
+                  <td width ="7%"  > {{ListFinancClinica.valor_credito | formatCurrency }} </td>
+                </tr>
+                </ng-template>
+
+                <!-- <tr style="background-color: #fff" >
+                  <th scope="row"></th>
+                  <td> </td>
+                  <td> </td>
+                  <td> </td>
+                  <td> </td>
+                  <td class="finc-tb-total"> TOTAL  </td>
+                  <td> </td>
+                  <td colspan="2" class="finc-tb-total"> Débito  {{totailGridDebito  | formatCurrency }} </td>
+                  <td colspan="3" class="finc-tb-total"> Crédito {{totailGridCredito | formatCurrency }} </td>
+                </tr> -->
+                
+              </tbody>
+          </table>
+        </div>
+        
+
+        <div class="col-12 "  >
+          <div class="row totais-rodape">
+
+              <div class="col" > <span> TOTAL </span> </div>
+              <div class="col" > <span> Débito :    {{totailGridDebito  | formatCurrency }} </span> </div>
+              <div class="col" > <span> Crédito :   {{totailGridCredito | formatCurrency }}  </span> </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      
+    <!-- <div class="container-fluid "  > -->
+    <div class="col-12 "  >
+      <div class="row finc-sub-bts">
+          <div class="col "   >
+            <div class="form-group frm-lf  ">
+                <label     class="lb-topo" >Total Saldo Anterior:  <i class="fa fa-times-circle finc-i-salAnt finc-i-col-b"  (click)="DellCaixaAnt()"  aria-hidden="true"></i> <i class="fa fa-plus finc-i-salAnt finc-i-col-b" [hidden]="LancCaixaAnterioShow" (click)="LancamentoCaixaAnt(template3ModalID)" aria-hidden="true"></i> </label>
+                   <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{SaldoAnterior | formatCurrency}}"  >
+            </div>
+          </div>
+          <div class="col"  [hidden]="ShowBtsMesAtual"  >
+            <div class="form-group frm-lf ">
+                <label class="lb-topo" >Total Débitos: </label>
+                  <!-- <input type="text" class="form-control finc-inpt"  > -->
+                  <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ValorParcelaMes | formatCurrency}}"  >
+            </div>
+          </div>
+          <div class="col" [hidden]="ShowBtsMesAtual" >
+            <div class="form-group frm-lf ">
+                <label class="lb-topo" >Total Créditos:</label>
+                  <!-- <input type="text" class="form-control finc-inpt" [value]="totalValorCredito"  > -->
+                  <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{ValorCreditoMes | formatCurrency}}"  >
+            </div>
+          </div>
+
+          <div class="col" [hidden]="ShowBtsMesAtual" >
+            <div class="form-group frm-lf ">
+                <label class="lb-topo" >Saldo Geral:</label>
+                  <!-- <input type="text" class="form-control finc-inpt" [value]="totalValorCredito"  > -->
+                  <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" value="{{totalValorSaldo | formatCurrency}}"  >
+            </div>
+          </div>
+
+          
+
+
+
+          <div class="col">
+            <div class="form-group frm-lf ">
+                <label class="lb-topo" >Débitos ate Hoje:</label>
+                  <!-- <input type="text" class="form-control finc-inpt"  > -->
+                  <input type="text" class="form-control finc-inpt" readonly="true" disabled="true"   *ngIf="showDadosMes == true"    value="{{ ValorParcelMesAteHoje | formatCurrency}}"  >
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group frm-lf ">
+                <label class="lb-topo" >Créditos ate Hoje:</label>
+                  <!-- <input type="text" class="form-control finc-inpt" [value]="totalValorCredito"  > -->
+                  <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" *ngIf="showDadosMes == true"  value="{{ ValorCreditoMesAteHoje | formatCurrency}}"  >
+            </div>
+          </div>
+
+           <div class="col">
+            <div class="form-group frm-lf ">
+                <label class="lb-topo" >Saldo Ate Hoje:</label>
+                  <!-- <input type="text" class="form-control finc-inpt" [value]="totalValorCredito"  > -->
+                  <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" *ngIf="showDadosMes == true"  value="{{ValorSaldoHoje | formatCurrency}}"  >
+            </div>
+          </div>
+
+         
+
+
+
+          <div class="col" [hidden]="ShowBtsMesAtual" >
+            <div class="form-group frm-lf ">
+                <label class="lb-topo" >Posição do Caixa:</label> 
+                <input type="text" class="form-control finc-inpt" readonly="true" disabled="true" *ngIf="showDadosMes == true"  value="{{PosicaoCaixa | formatCurrency}}"  >
+            </div>
+          </div>
+
+
+      </div>
+    </div>
+
+
+
+    </div><!-- end row -->
+
+
+
+  </div> <!-- end container-fluid -->
+    <!--(click)="staticModal.show()"   -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ********************************************************************************
+  ***********************************************************************************
+  ***********************************************************************************
+                                    MODAL 
+-->
+<!-- 
+<button type="button" class="btn btn-primary" (click)="staticModal.show()">Novo Débito</button>
+ 
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog md-Full">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">{{MD.Titulo}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+     
+
+    </div>
+  </div>
+</div> 
+-->
+
+<!-- <button type="button" class="btn btn-primary" (click)="openModal(template)" > bt teste eeeee</button> -->
+<!--  <button type="button" class="btn btn-primary" (click)="NovoDebto(template)" > bt teste eeeee</button> -->
+
+<ng-template #templateModalID >
+  
+
+  <div class="modal-header tt-md-corp">
+    <h4 class="modal-title pull-left tt-md-name">{{MD.Titulo}}</h4>
+    <button type="button" class="close pull-right " aria-label="Close" (click)="modalRef.hide()">
+      <span class="tt-md-close" aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p0">
+     <div class="modal-body">
+        <!-- This is static modal, backdrop click will not close it.
+        Click <b>&times;</b> to close modal. -->
+          <div>
+
+
+              <div class="row finc-sub-bts"> 
+                <!-- <div class="col">
+                  <div class="form-group frm-topo " [class.has-danger]="MD.vencimentoDanger == true">
+                      <label class="lb-topo" [class.has-danger-red]="MD.vencimentoDanger == true" > Vencimento: </label>
+                        <input type="text" class="form-control finc-inpt"  (blur)="FormDataPagChanger(MD.vencimento)"  [brmasker]="{mask:'00/00/0000', len:10}"  [(ngModel)]="MD.vencimento"  >
+                        
+                  </div>
+                </div> -->
+                <div class="col">
+                    <div class="form-group frm-topo " [class.has-danger]="MD.vencimentoDanger == true">
+                        <label class="lb-topo" [class.has-danger-red]="MD.vencimentoDanger == true" > Vencimento: </label>
+                        <form #myForm="ngForm" novalidate>
+                            <my-date-picker name="mydate1" [locale]="locale"  [brmasker]="{mask:'00/00/0000', len:10}"   [options]="myDatePickerOptions" [(ngModel)]="modalVec"  required></my-date-picker>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col">
+                  <div class="form-group frm-topo "  >
+                      <label class="lb-topo" > Dia: </label>
+                        <input type="text" class="form-control finc-inpt"  disabled="true" [(ngModel)]="MD.diaNome"  >
+                  </div>
+                </div>
+                <div class="col"  *ngIf="MD.PagFormShow == true">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Forma Pagamento:  </label>
+                      <select class="form-control finc-inpt" (change)="onchagerPagForm()"   [(ngModel)]="MD.PagForm"   [disabled]=" (FincselectedBonus)"  >
+                          <option *ngFor="let FormaP of ListFormaPagamentoD" [value]="FormaP.chave"    >{{FormaP.nm_tipo_pagamento}}</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="col" >
+                  <div class="form-group frm-topo "  [class.has-danger]="MD.valorParcelaDanger == true">
+                      <label class="lb-topo" [class.has-danger-red]="MD.valorParcelaDanger == true" > Valor da Parcela:  </label>   <!-- MD.tipo_movimento == 'D' && L00000020100620202853 -->
+                        <input type="text" class="form-control finc-inpt" placeholder="R$: 0,00"  [(ngModel)]="MD.valorParcela"  [disabled]=" (FincselectedBonus) ||  (    MD.actionExe == 'AterarDebito' && MD.PagForm == 'L00000020100620202853') || (MD.PagForm == 'L00500020161205113918') || (  MD.actionExe == 'AterarDebito' &&  MD.PagForm == 'L00000020100620202851')"   #valParcelaIPT  (click)="FumMovCusorOfEnd(valParcelaIPT)"  currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" >
+                  </div>
+                </div>
+                
+              </div> <!-- FIM ROW -->
+
+              
+              <!-- FROM para CHEQUE   ###  INI  ###-->
+              <div class="row finc-sub-bts " *ngIf=" (MD.PagForm == 'L00000020100620202853') || (MD.PagForm == 'L00000020100620202851') " > 
+                <div class="col bd-callout bd-callout-warning">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Banco: </label>
+                        <select class="form-control finc-inpt" [(ngModel)]="MD.CheqBanco"  [disabled]="(FincselectedBonus) || (MD.PagForm == 'L00000020100620202853') || (MD.PagForm == 'L00000020100620202851')" > 
+                          <option *ngFor="let cheqB of ListBancoCheq" [value]="cheqB.chave"   >{{cheqB.nm_banco}}</option>
+                      </select>
+
+
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Agência: </label>
+                        <input type="text" class="form-control finc-inpt"  maxLength="5"  [(ngModel)]="MD.CheqAgen"   [disabled]=" (MD.PagForm == 'L00000020100620202853') || (MD.PagForm == 'L00000020100620202851')"    >
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Conta: </label>
+                        <input type="text" class="form-control finc-inpt"  maxLength="10"  [(ngModel)]="MD.CheqCont"  [disabled]=" (MD.PagForm == 'L00000020100620202853') || (MD.PagForm == 'L00000020100620202851')"    >
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Cheque: </label>
+                        
+                         <input type="text" class="form-control finc-inpt"  maxLength="26"  [(ngModel)]="MD.CheqNum" NumberOnly >
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo"  > Usar de cliente (terceiro): </label>
+                        <div>
+                            <div> 
+                              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="S" [(ngModel)]="MD.CheqTerce" > 
+                                <label class="lb-topo" >Sim</label>
+                            </div>
+                            <div>
+                              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="N" checked   [(ngModel)]="MD.CheqTerce" >
+                              <label class="lb-topo" >Não</label>
+                            </div>
+                        </div>  
+                  </div>
+                </div>
+              </div> <!-- FIM ROW -->
+
+
+              <div class="row finc-sub-bts " *ngIf=" (MD.PagForm == 'L00500020161205113918') " > 
+                <div class="col bd-callout bd-callout-warning">
+                  <div class="form-group frm-topo">
+                      <label class="lb-topo" > Nome paciente: </label>
+                        <!-- <input type="text" class="form-control finc-inpt"  placeholder="Digite um nome para buscar..." [(ngModel)]="MD.n"  > -->
+                         <ng-select (keyup)="onGetNamePaciente($event)"
+                                [options]="ListNomePacientes"
+                                [multiple]="multiple0"
+                                placeholder="Buscar nome de Paciente..."
+                                [allowClear]="true"
+                                (selected)="onNamePSelected($event)">
+                                <!--  (deselected)="deselectSelected($event)"> -->
+                          </ng-select>
+                        
+                  </div>
+                </div>
+              </div>
+
+              <div class="row finc-sub-bts " *ngIf=" (MD.PagForm == 'L00500020161205113918')  " >
+                <div class="col-6">
+                  <div class="form-group frm-topo finc-select-itens ">
+                          <div class="finc-bd-tb">
+                            <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                                <thead class="thead-default">
+                                  <tr>
+                                    <th width ="34%"   style="text-align: center;" >Financeiro Grupo Parcelas</th>
+                                    <!-- <th width =""   style="text-align: center;" >Total	</th> -->
+                                    <!-- <th width =""   style="text-align: center;" >Parcela</th> -->
+                                    <th width =""   style="text-align: center;" >Credito</th>
+                                    <!-- <th width =""   style="text-align: center;"  >Numparcela</th> -->
+                                    <th width =""   style="text-align: center;" >Historico</th>
+                                    <th width =""   style="text-align: center;" >Cheq. N°</th>
+                                    <th width =""   style="text-align: center;" >Data Baixa</th>
+                                    <!-- <th width =""   style="text-align: center; padding-right: 10px" > PG </th> -->
+
+                                  </tr>
+                                </thead>
+                            </table>
+                          </div>
+                          <div class="finc-bd-tb finc-table-md">  
+                            <table class="table table-striped table-hover-fic finc-table" id="finc-tb">
+                                <tbody class="ft-12">
+                                  <!-- <tr  (click)="FincaTrSelect(ListFinancClinica,i)"   [class.finc-td-debito]="ListFinancClinica.tipo_movimento == 'D'"   *ngFor="let ListFinancClinica of ListFinancClinicaGrid; let i = index" > -->
+                                    <tr  (click)="FincaParcSelectAdd(List)" [class.DisplayOff]="List.Selected == true"   *ngFor="let List of LisFincPacitGrid; let i = index"   >
+                                      <td  width =""  > <i class="fa fa-share" style="padding-left: 5px " aria-hidden="true"></i> </td>
+                                      <td width ="37%" >  {{List.fincAprov}} </td>
+                                      <!-- <td width ="" > {{List.valTotal   | formatCurrency}}</td> -->
+                                      <!-- <td width ="" > {{List.valparcela | formatCurrency}} </td> -->
+                                      <td width ="10%" >      {{List.valCredito | formatCurrency}} </td>
+                                      <!-- <td width ="" > {{List.parcelaNum }} </td>  -->
+                                      <td width ="29%" >  {{List.historico}} </td>
+                                      <td width ="29%" class="test-fort" >  {{List.cheqNum}} </td>
+                                      <td width =""  >     {{List.dtBaixa}} </td>
+                                      <!-- <td width ="" >     {{List.pago}} </td> -->
+                                  </tr>
+                                </tbody>
+                            </table>
+                          </div>
+
+
+                        <!-- <input type="text" class="form-control finc-inpt"    [(ngModel)]="MD.a"  > -->
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group frm-topo finc-select-itens ">
+                      <!-- <label class="lb-topo" > Parcelas selecionadas </label> -->
+                        <!-- <input type="text" class="form-control finc-inpt"    [(ngModel)]="MD.s"  > -->
+                          <div class="form-group frm-topo finc-select-itens ">
+                              <div class="finc-bd-tb">  
+                                <table class="table table-striped table-hover-fic finc-table" id="finc-tb" style="margin-bottom: 0;">
+                                    <thead class="thead-default">
+                                      <tr>
+                                        <!-- <th width =""   style="text-align: center;" > Remover </th> -->
+                                        <th width =""   style="text-align: center;" >Parcelas Selecionadas</th>
+                                        <th width =""   style="text-align: center;" >Credito</th>
+                                        <th width =""   style="text-align: center;" >Historico</th>
+                                        <th width =""   style="text-align: center;" >Cheq. N°</th>
+                                        <!-- <th width =""   style="text-align: center;" >Data Baixa</th>  -->
+                                      </tr>
+                                    </thead>
+                                </table>
+                              </div>
+                              <div class="finc-bd-tb finc-table-md">  
+                                <table class="table table-striped table-hover-fic finc-table" id="finc-tb">
+                                    <tbody class="ft-12">
+                                      <!-- <tr  (click)="FincaTrSelect(ListFinancClinica,i)" [class.table-hover-fic-Selected]="i == FincTrselectedRow"  [class.finc-td-debito]="ListFinancClinica.tipo_movimento == 'D'"   *ngFor="let ListFinancClinica of ListFinancClinicaGrid; let i = index" > -->
+                                        <tr  (click)="FincaParcValid(List)"  *ngFor="let List of ListSelecFincPacit; let i = index" >
+                                        <td width ="" > <i  class="fa fa-times" style="padding-left: 5px " aria-hidden="true"></i> </td>
+                                        <td width ="40%"  > {{List.fincAprov }} <br> {{List.nome}} </td>
+                                        <td width ="" > {{List.valCredito | formatCurrency }} </td>
+                                        <td width ="25%" >  {{List.historico  }} </td>
+                                        <th width ="" class="test-fort" >{{List.cheqNum  }}</th>
+                                        <!-- <td width ="" > {{List.dtBaixa }} </td> -->
+                                      </tr>
+                                    </tbody>
+                                </table>
+                              </div>
+
+
+                                <!-- <input type="text" class="form-control finc-inpt"    [(ngModel)]="MD.a"  > -->
+                          </div>
+
+
+
+
+
+
+                  </div>
+                </div>
+              </div> <!-- FIM ROW -->
+                  <!-- CHEQUE FIM ROW -->
+
+              <div class="row finc-sub-bts"> 
+                <div class="col">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Histórico: </label>
+                        <input type="text" class="form-control finc-inpt"  placeholder="..."  (click)="myMethod()" [(ngModel)]="MD.historico"   [disabled]=" (FincselectedBonus)" >
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo"    > Categoria:</label>
+                       <!--  <input type="text" class="form-control finc-inpt"  placeholder="Pesquisar"  (click)="myMethod()" [(ngModel)]="pesqString"  > -->
+                      <select class="form-control finc-inpt" [(ngModel)]="MD.tipo_movimento" disabled="{{MD.catTipoDisable}}"    >
+                          <option *ngFor="let cat of ListCatcoriClinic" [value]="cat.value" > {{cat.nome}} </option>
+                      </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group frm-topo "  [class.has-danger]="MD.planoContaDanger == true">
+                      <label class="lb-topo"  [class.has-danger-red]="MD.planoContaDanger == true"  > Plano de Contas: </label>
+                        <!--<input type="text" class="form-control finc-inpt"  placeholder="Pesquisar"  (click)="myMethod()" [(ngModel)]="pesqString"  > -->
+                          <ng-select
+                                [options]="ListplanoContas"
+                                [multiple]="multiple0"
+                                [disabled]=" (FincselectedBonus)"
+                                placeholder="{{MD.planoContaSelected}}"
+                                [allowClear]="true"
+                                (selected)="onSingleSelected($event)">
+                                <!--  (deselected)="deselectSelected($event)"> -->
+                          </ng-select>
+                  </div>
+                </div>
+
+                <!-- apenas aparece para as clinicas Fraqueadoras  -->
+                <div class="col" *ngIf="UnidadeDados.franqueadora == 'S'" >
+                  <div class="form-group frm-topo "  >
+                      <label class="lb-topo" > Unidade Fraqueadora </label>
+                          <ng-select 
+                                [disabled]=" (FincselectedBonus)"
+                                [options]="ListUnidadesFraqueadora"
+                                [multiple]="multiple0"
+                                placeholder="{{Faqueadoraelected}}"
+                                [allowClear]="true"
+                                (selected)="onSelectedFranc($event)" >
+                          </ng-select>
+                  </div>
+                </div>
+                
+              </div> <!-- FIM ROW -->
+
+
+              <div class="row finc-sub-bts"> 
+                <div class="col">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Observações: </label>
+                        <input type="text" class="form-control finc-inpt" placeholder="..."  (click)="myMethod()" [(ngModel)]="MD.observacao"  >
+                  </div>
+                </div>
+
+              </div> <!-- FIM ROW -->
+
+          </div>
+     
+
+
+      </div>
+  </div>
+    <div class="modal-footer p0">
+
+         <div class="row finc-sub-bts"> 
+
+                  
+                <div class="col-12 align-self-center"> 
+                    <div class="row">
+                      
+                          <div class="col-4">
+                            <div class="form-group frm-topo ">
+                              <button type="button" class="btn btn-primary"  (click)="ExeForm(MD)"  [disabled]="Process" >Ok</button>
+                            </div>
+                          </div>
+                          <div class="col-8">
+                            <div class="form-group frm-topo ">
+                              <button type="button" class="btn btn-primary" (click)="modalRef.hide()" >Cancelar</button>
+                            </div>
+                          </div>
+                      
+                    </div>
+                </div>
+      
+          </div><!-- FIM ROW -->
+
+
+    </div>
+
+</ng-template>
+
+
+
+<ng-template  #template2ModalID  >
+  <div class="modal-header tt-md-corp">
+    <h4 class="modal-title pull-left tt-md-name">Lançamento de Contas Essenciais</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span class="tt-md-close" aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+     <div class="modal-body">
+        <!-- This is static modal, backdrop click will not close it.
+        Click <b>&times;</b> to close modal. -->
+          <div>
+
+
+            <div class="row finc-sub-bts"> 
+                <div class="col">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Filial: </label>
+                        <input type="text" class="form-control finc-inpt"  disabled="true"  [(ngModel)]="MD.Filial"  >
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Início: </label>
+                        <input type="text" class="form-control finc-inpt"  disabled="true" [(ngModel)]="MD.ini"  >
+                  </div>
+                </div>
+                <div class="col" >
+                  <div class="form-group frm-topo ">
+                      <label class="lb-topo" > Fim: </label>
+                        <input type="text" class="form-control finc-inpt"  disabled="true" [(ngModel)]="MD.fim"   >
+                  </div>
+                </div>
+            </div>
+
+            <div class="row finc-sub-bts"> 
+              <div class="col-12">
+
+                <table class="table table-striped table-hover-fic finc-table" id="finc-tb2">
+                  <thead class="thead-default">
+                    <tr>
+                      <th>#</th>
+                      <th>Nome</th>
+                    </tr>
+                  </thead>
+                  <tbody class="ft-12">
+                    <tr  (click)="ContaEsseTrSelect(Lesse,i,templateModalID)"  *ngFor="let Lesse of ListContsEssenciais; let i = index" >
+                      <th scope="row" >{{i}}</th>
+                      <td> {{Lesse.nm_categoria_plano_conta}} </td>
+                    </tr>
+                  </tbody> 
+                </table>
+                
+              </div>
+                
+                 
+                 
+              </div>
+          </div>
+     </div>
+  </div>
+</ng-template>
+
+
+
+
+
+<ng-template  #template3ModalID  >
+  <div class="modal-header tt-md-corp">
+    <h4 class="modal-title pull-left tt-md-name">Laçamento de caixa Anterior</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span class="tt-md-close" aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+     <div class="modal-body">
+        <!-- This is static modal, backdrop click will not close it.
+        Click <b>&times;</b> to close modal. -->
+          <div>
+
+                <div class="row finc-sub-bts"> 
+                    <div class="col-6">
+                      <div class="form-group frm-topo ">
+                           <label class="lb-topo" > Saldo Total: </label> <!-- {{SaldoCaixaDifirenca}} -->
+                            <input type="text" class="form-control finc-inpt"  disabled="true"  [(ngModel)]="FormSaldoAnt"  currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" >
+                      </div>
+                    </div>
+
+                    <div class="col-6"   *ngFor="let CaixaAntIPT of FormCaixaAntIPTs;let i = index "    >
+                      <div class="form-group frm-topo ">
+                          <label class="lb-topo" > {{CaixaAntIPT.nm_categoria_plano_conta}} </label>
+                            <input type="text" class="form-control finc-inpt"   (keyup)="onchagerSaldo(MDARRAY)" (keypress)="onchagerSaldo(MDARRAY)" (ngOnChanges)="onchagerSaldo(MDARRAY)"  [(ngModel)]="MDARRAY[CaixaAntIPT.cpc]"  [id]="CaixaAntIPT.cpc"  #elem  (click)="FumMovCusorOfEnd(elem)"    placeholder="R$: 0,00"   currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" >
+                      </div>
+                    </div>
+
+                </div>
+
+                 <div class="row finc-sub-bts"> 
+                    <div class="col-6">
+                      <button type="button" class="btn btn-primary" [disabled]="bTCaixAntProssec" (click)="LancamentoCaixaAntExe(MDARRAY,template3ModalID)" >Ok</button>
+                    </div>
+                 </div>
+
+          </div>
+     </div>
+  </div>
+</ng-template>
+
+
+<ng-template  #template4ModalID  > 
+  <div class="modal-header tt-md-corp">
+    <h4 class="modal-title pull-left tt-md-name">Confirmação para Excluir</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span class="tt-md-close" aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+     <div class="modal-body">
+        <!-- This is static modal, backdrop click will not close it.
+        Click <b>&times;</b> to close modal. -->
+          <div>
+
+                <div class="row finc-sub-bts"> 
+                    <div class="col-12">
+                      <p>
+                        Deseja Realmente excluir da conta da clinica?
+                      </p>
+                    </div>
+
+                    <div class="col-12 container" >
+                        <p class="lb-topo dell-text"  >
+                            O item: #{{FincTrselectedRow+1}} da lista  , com débito de {{DellMD.valor_parcela | formatCurrency }}; com o crédito de {{DellMD.valor_credito | formatCurrency }}; lançando pelo funcionário {{DellMD.nm_prestador}}.   
+                        </p>
+                    </div>
+
+                </div>
+
+                 <div class="row finc-sub-bts pa-t-15"> 
+                    <div class="col-6">
+                        <!-- <button type="button" class="btn btn-primary"  >Ok</button> -->
+                        <button type="button" class="btn btn-primary"  (click)="modalRef.hide()" >Cancelar </button>
+                        <button type="button" class="btn btn-danger" [disabled]="DellProcess" (click)="ConfirmarDellCred(template4ModalID,true)" >Excluir</button> 
+                         
+                    </div>
+                 </div>
+
+          </div>
+     </div>
+  </div>
+</ng-template>
+
+
+
+
+
+<!-- DIV PROCESSANDO   -->
+<div class="finc-ccc-processando" *ngIf="bTFiltarProssec"  >
+    <div class="processando">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw processando-i"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+</section>

@@ -1,0 +1,426 @@
+/* You can add global styles to this file, and also import other style files */
+@import "/assets/css/flaticon/flaticon.css";
+@import "/assets/css/glyphicons-fonts/glyphicon.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+.p0{
+    padding: 0;
+}
+.DisplayOff{
+    display: none  !important;
+}
+.test-fort{
+    font-weight: 700;
+}
+.lb-topo{
+    display: inline !important;
+}
+.frm-topo{
+    text-align: left;
+}
+.frm-lf{
+    text-align: left;
+}
+.finc-lista-relatorio{
+    min-height: 300px;
+    /*height: 300px;*/
+
+}
+.finc-lista-relatorio div>table>thead>tr>th{
+    font-size: 13px;
+}
+.bckg-c{
+   background-color:  #e4e5e6;
+}
+
+.finc-top-bord{
+    border-bottom: 1px solid #BBB;
+
+}
+.finc-select-itens{
+    height: 100px;
+}
+
+.finc-bt-top:hover{
+    cursor: pointer;
+    color: #c70f0f;
+    /* background-color: green; */
+}
+
+.frm-bt-unic button{
+    margin-top: 18px;
+    float: left;
+}
+
+.finc-table thead>tr>th{
+    padding: 0;
+
+}
+.finc-table tbody>tr>th, tbody>tr>td{
+    padding: 5px 0px 5px 0px !important;
+
+}
+#finc-tb.table-striped>tbody>tr:nth-of-type(odd),
+#finc-tb.table-striped>tbody>tr:nth-of-type(even){
+   /* background-color:rgba(160, 222, 170, 0.72); */
+   background-color: #D8EFF2 ;
+}
+
+#finc-tb2.table-striped>tbody>tr:nth-of-type(even){
+    /* background-color:rgba(160, 222, 170, 0.72); */
+    background-color: #fbfbfb ;
+ }
+
+#finc-tb.table-striped>tbody>tr{
+    border: 1px;
+    border-collapse: separate !important;
+    border-style: double !important;
+    border-spacing: 2px !important;
+    border-color: grey !important;
+}
+
+.finc-table-responsive {
+    max-height:350px !important;
+    min-height: 50px !important;
+    overflow-y: auto;
+    overflow-x: hidden !important;
+}
+
+.finc-table-md {
+    max-height: 80px !important;
+    min-height: 50px !important;
+    overflow-y: auto;
+    overflow-x: hidden !important;
+}
+
+.finc-tb-total{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.finc-td-debito{
+    background-color: rgba(255, 0, 0, 0.29) !important;
+}
+
+.finc-bd-l{
+    border-left: 1px solid #BBB;
+}
+.finc-i-col-b{
+  color:  #007bff;
+}
+.finc-sub-bts{
+    font-size: 12px;
+}
+.finc-inpt{
+    font-size: 12px;
+    padding: 4 6 4 6 !important;
+}
+.finc-bd-tb{
+    border: 1px solid #BBB;
+}
+.ft-12{
+    font-size: 12px;
+}
+
+.tr-financ:hover{
+    background-color: #fff;
+}
+.table-hover-fic tbody tr:hover {
+    background-color: rgba(232,0,0,.075);
+    color: #c70f0f;
+    cursor: pointer;
+}
+.table-hover-fic-Selected {
+    background-color: rgba(0, 0, 200, 0.59) !important;
+    color: #FFF !important;
+    cursor: pointer;
+}
+
+
+
+.tt-pg-corp{
+    background: #396A93;
+    font-family: helvetica;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    height: 30px;
+    border-bottom: 1px solid #BBB;
+}
+.tt-pg-name{
+    /* float: left; */
+    padding: 7px 0 5px 10px;
+    margin-bottom: 1px;
+}
+
+
+.has-danger-red{
+    color: #d9534f !important;
+}
+
+
+.processando{
+    top: 0;
+    position: relative;
+    float: left;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    height: 100%;
+    background-color: rgba(6, 6, 6, 0.38);
+}
+
+.processando-i{
+    margin-top: 10%;
+}
+
+.finc-ccc-processando{
+    top: 157px;
+    position: absolute;
+    float: left;
+    left: 0;
+    width: 100%;
+    /* height: 45%; */
+    /* height: 400; */
+    height: 270px;
+
+}
+
+
+.tbl-Min>table>tbody>tr>td>a,.tbl-Min>table>tbody>tr>td,.tbl-Min>table>tbody>tr{
+    padding: 0px !important;
+}
+
+
+
+.cP:hover{
+    cursor: pointer;
+}
+
+
+/*----------------------------------------------------------
+*                      CLASS MODAL
+-----------------------------------------------------------*/
+.md-Full{
+    max-width: 90% !important;
+}
+
+.md-lgA{
+    max-width: 80% !important;
+}
+
+
+
+.tt-md-corp{
+    background: #396A93;
+    /* font-family: helvetica; */
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    /* height: 30px; */
+    /* border-bottom: 1px solid #BBB; */
+    padding-top: 0px !important;
+    padding-left: 15px !important;
+    padding-bottom: 0px !important;
+    padding-right: 0px !important;
+}
+.tt-md-name{
+    /* float: left; */
+    padding: 7px 0 5px 10px;
+}
+
+.tt-md-close{
+    padding-right: 15px;
+}
+
+
+.tt-md-corp2{
+    /* background: #396A93; */
+    /* font-family: helvetica; */
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    /* height: 30px; */
+    /* border-bottom: 1px solid #BBB; */
+    padding-top: 0px !important;
+    padding-left: 15px !important;
+    padding-bottom: 0px !important;
+    padding-right: 0px !important;
+
+}
+.tab-cadeiras,.tab-cadeiras li {
+    background-color: #919ca5f5 !important;
+    border-radius: 5px 5px 0px 0px !important;
+
+}
+.tab-cadeiras li:hover{
+    background-color: #376992f5 !important;
+    color: #c91d1d !important;
+}
+
+.tab-cadeiras li:hover >a>span{
+    color: #ee2222 !important;
+}
+
+
+.tab-cadeiras li>a{
+    color: #292b2c !important;
+}
+
+
+.divcol7{
+    width: 14.2857px;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 14.2857%;
+    flex: 0 0 14.2857%;
+    max-width: 14.2857%;
+    padding-right: 15px;
+    padding-left: 15px;
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    text-align: center;
+}
+
+
+.modal-lgA{
+    width: 90%;
+}
+.modal-lgB{
+    width: 80%;
+}
+.modal-lgC{
+    width: 70%;
+}
+
+
+
+
+
+
+
+.acordionCCP>div>div.card-header {
+    display: none !important;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+
+.acordionCCP>div.card {
+   background-color: rgba(255, 0, 0, 0);
+}
+/*
+accordion>accordion-group>div>div .card-header {
+    display: none;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+
+accordion>accordion-group>  .card-header {
+    display: none;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+
+accordion>accordion-group>div>div  {
+    display: none;
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+accordion>accordion-group>div>div .card-header {
+    padding: 0 !important;
+}*/
+
+
+.ptop15{
+    padding-top: 15px;
+}
+
+.pdl-0{
+    padding-left: 0px;
+}
+.mgt-5{
+    margin-top: 5px;
+}
+.mgt-10{
+    margin-top: 10px;
+}
+.mgt-15{
+    margin-top: 15px;
+}
+
+.mgb-0{
+    margin-bottom: 0px;
+}
+.mgb-5{
+    margin-bottom: 5px;
+}
+.mgb-10{
+    margin-bottom: 10px;
+}
+
+.mgr-15{
+    margin-right: 15px;
+}
+
+.table-Debito-td{
+    color: red;
+}
+
+.table-excluir-col-SIM>label::before {
+    content: "Sim";
+}
+
+
+.table-excluir-col-NAO>label::before {
+    content: "Não";
+}
+
+
+.table-hover-fic-excluir {
+    background-color: rgba(214, 34, 11, 0.459) !important;
+    color: #FFF !important;
+    cursor: pointer;
+}
+
+
+.table-hover-fic-nova {
+    background-color: rgba(11, 14, 214, 0.459) !important;
+    color: #FFF !important;
+    cursor: pointer;
+}
+
+.table-hover-fic-alterado {
+    background-color: rgba(214, 167, 11, 0.459) !important;
+    color: #333 !important;
+    cursor: pointer;
+}
+
+
+.obrigat{
+    color: red !important;
+}
+
+
+
+
+.showNumCart>label::before{
+    content: " : ";
+}
+
+
+.showNumCart>label{
+    font-weight: bold;
+}
+
+
+.ft-10{
+    font-size: 10px !important;
+}
+
+.clr-red{
+    color: red;
+}
+.bgColW{
+    background-color: white;
+
+}

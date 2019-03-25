@@ -1,0 +1,145 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 05/06/2017 16:30
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .flaticon-calendar:before { content: "\f100"; }
+.flaticon-medical-35:before { content: "\f101"; }
+.flaticon-drill-1:before { content: "\f102"; }
+.flaticon-tool-3:before { content: "\f103"; }
+.flaticon-scissors:before { content: "\f104"; }
+.flaticon-medical-34:before { content: "\f105"; }
+.flaticon-teeth:before { content: "\f106"; }
+.flaticon-brush:before { content: "\f107"; }
+.flaticon-medical-33:before { content: "\f108"; }
+.flaticon-drill:before { content: "\f109"; }
+.flaticon-medical-32:before { content: "\f10a"; }
+.flaticon-medical-31:before { content: "\f10b"; }
+.flaticon-medical-30:before { content: "\f10c"; }
+.flaticon-medical-29:before { content: "\f10d"; }
+.flaticon-medical-28:before { content: "\f10e"; }
+.flaticon-tool-2:before { content: "\f10f"; }
+.flaticon-medical-27:before { content: "\f110"; }
+.flaticon-smile:before { content: "\f111"; }
+.flaticon-search:before { content: "\f112"; }
+.flaticon-medical-26:before { content: "\f113"; }
+.flaticon-medical-25:before { content: "\f114"; }
+.flaticon-medical-24:before { content: "\f115"; }
+.flaticon-medical-23:before { content: "\f116"; }
+.flaticon-medical-22:before { content: "\f117"; }
+.flaticon-medical-21:before { content: "\f118"; }
+.flaticon-medical-20:before { content: "\f119"; }
+.flaticon-medical-19:before { content: "\f11a"; }
+.flaticon-medical-18:before { content: "\f11b"; }
+.flaticon-medical-17:before { content: "\f11c"; }
+.flaticon-medical-16:before { content: "\f11d"; }
+.flaticon-time-1:before { content: "\f11e"; }
+.flaticon-medical-15:before { content: "\f11f"; }
+.flaticon-tool-1:before { content: "\f120"; }
+.flaticon-medical-14:before { content: "\f121"; }
+.flaticon-medical-13:before { content: "\f122"; }
+.flaticon-time:before { content: "\f123"; }
+.flaticon-people-1:before { content: "\f124"; }
+.flaticon-medical-12:before { content: "\f125"; }
+.flaticon-medical-11:before { content: "\f126"; }
+.flaticon-medical-10:before { content: "\f127"; }
+.flaticon-medical-9:before { content: "\f128"; }
+.flaticon-dentist:before { content: "\f129"; }
+.flaticon-medical-8:before { content: "\f12a"; }
+.flaticon-medical-7:before { content: "\f12b"; }
+.flaticon-medical-6:before { content: "\f12c"; }
+.flaticon-tool:before { content: "\f12d"; }
+.flaticon-medical-5:before { content: "\f12e"; }
+.flaticon-people:before { content: "\f12f"; }
+.flaticon-medical-4:before { content: "\f130"; }
+.flaticon-medical-3:before { content: "\f131"; }
+.flaticon-medical-2:before { content: "\f132"; }
+.flaticon-medical-1:before { content: "\f133"; }
+.flaticon-medical:before { content: "\f134"; }
+    
+    $font-Flaticon-calendar: "\f100";
+    $font-Flaticon-medical-35: "\f101";
+    $font-Flaticon-drill-1: "\f102";
+    $font-Flaticon-tool-3: "\f103";
+    $font-Flaticon-scissors: "\f104";
+    $font-Flaticon-medical-34: "\f105";
+    $font-Flaticon-teeth: "\f106";
+    $font-Flaticon-brush: "\f107";
+    $font-Flaticon-medical-33: "\f108";
+    $font-Flaticon-drill: "\f109";
+    $font-Flaticon-medical-32: "\f10a";
+    $font-Flaticon-medical-31: "\f10b";
+    $font-Flaticon-medical-30: "\f10c";
+    $font-Flaticon-medical-29: "\f10d";
+    $font-Flaticon-medical-28: "\f10e";
+    $font-Flaticon-tool-2: "\f10f";
+    $font-Flaticon-medical-27: "\f110";
+    $font-Flaticon-smile: "\f111";
+    $font-Flaticon-search: "\f112";
+    $font-Flaticon-medical-26: "\f113";
+    $font-Flaticon-medical-25: "\f114";
+    $font-Flaticon-medical-24: "\f115";
+    $font-Flaticon-medical-23: "\f116";
+    $font-Flaticon-medical-22: "\f117";
+    $font-Flaticon-medical-21: "\f118";
+    $font-Flaticon-medical-20: "\f119";
+    $font-Flaticon-medical-19: "\f11a";
+    $font-Flaticon-medical-18: "\f11b";
+    $font-Flaticon-medical-17: "\f11c";
+    $font-Flaticon-medical-16: "\f11d";
+    $font-Flaticon-time-1: "\f11e";
+    $font-Flaticon-medical-15: "\f11f";
+    $font-Flaticon-tool-1: "\f120";
+    $font-Flaticon-medical-14: "\f121";
+    $font-Flaticon-medical-13: "\f122";
+    $font-Flaticon-time: "\f123";
+    $font-Flaticon-people-1: "\f124";
+    $font-Flaticon-medical-12: "\f125";
+    $font-Flaticon-medical-11: "\f126";
+    $font-Flaticon-medical-10: "\f127";
+    $font-Flaticon-medical-9: "\f128";
+    $font-Flaticon-dentist: "\f129";
+    $font-Flaticon-medical-8: "\f12a";
+    $font-Flaticon-medical-7: "\f12b";
+    $font-Flaticon-medical-6: "\f12c";
+    $font-Flaticon-tool: "\f12d";
+    $font-Flaticon-medical-5: "\f12e";
+    $font-Flaticon-people: "\f12f";
+    $font-Flaticon-medical-4: "\f130";
+    $font-Flaticon-medical-3: "\f131";
+    $font-Flaticon-medical-2: "\f132";
+    $font-Flaticon-medical-1: "\f133";
+    $font-Flaticon-medical: "\f134";

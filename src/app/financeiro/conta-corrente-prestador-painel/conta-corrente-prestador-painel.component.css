@@ -1,0 +1,96 @@
+.tituloRecibo{
+    font-weight: 600;
+
+}
+.tituloValor{
+    font-weight: 600;
+    border: 1px solid;
+}
+
+.tituloReviboLinha::after { 
+    content: "-";
+    background-color: black;
+    color: black;
+    width: 100%;
+    height: 1px;
+    font-size: 1px;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.tituloReviboLinha2::after { 
+    content: "_";
+    background-color: black;
+    color: black;
+    width: 100%;
+    height: 1px;
+    font-size: 1px;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.assinat{
+    margin-top: 50px;
+    border-bottom: 1px solid;
+}
+
+.assinatNome{
+    text-justify: auto;
+    text-align: center;
+}
+
+.esconde{
+    display: none;
+}
+
+.fr{
+    float: right;
+}
+
+.corP1{
+   background-color: #d1d4d3;
+}
+
+.corp2:hover{
+    background-color : #8dada4cf;
+}
+
+
+.corR{
+    background:#DAE9F3 !important; 
+    cursor:pointer; 
+}
+
+.corP{
+    background:#F5DDDD !important; 
+    cursor:pointer; 
+}
+
+.corO{
+    background:#DFF6D7 !important; 
+    cursor:pointer; 
+}
+
+.FontRed, .FontRed>th, .FontRed>td{
+    color: red !important;
+}
+
+.ModalSegundo>div{
+    margin-top: 10% !important;
+}
+.ModalSegundoB{
+    margin-top: 10% !important;
+}
+
+
+.ModalB{
+    background-color: #062d4e !important;
+}
+
+.ft8{
+    font-size: 8pt !important;
+}
+
+
+
+

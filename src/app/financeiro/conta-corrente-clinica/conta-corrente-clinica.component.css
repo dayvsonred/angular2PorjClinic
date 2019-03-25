@@ -1,0 +1,22 @@
+.dell-text{
+    font-size: 14px;
+    font-weight: 700;
+}
+.pa-t-15{
+    padding-top: 15px;
+}
+
+.finc-i-salAnt{
+    font-size: 15px;
+}
+.totais-rodape{
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #fcfcfc;
+    border: 1px solid #BBB;
+    margin-bottom: 10px;
+}
+
+.totais-rodape div>span{
+    font-weight: 700;
+}

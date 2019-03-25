@@ -1,0 +1,201 @@
+<section>
+  <div class="container-fluid" >
+   
+    <div class="row tt-pg-corp">
+      <div class="col tt-pg-name">
+        Envio Tratamentos Dentalvidas - {{SelectClinicaDados.nm_unidade_atendimento}}
+      </div>
+    </div>
+
+    <!-- DIV PROCESSANDO   -->
+	<div class="loading" *ngIf="loading">
+	    <div class="processando">
+	        <div style="padding-top: 200px;">
+	        	<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+	        </div>
+	        <span class="sr-only">Loading...</span>
+	    </div>
+	</div>
+
+    <div class="row finc-top-bord">
+      <div class="col">
+        <div class="row" style="height: 30px; padding-top: 2px;">
+          <div class="col finc-bt-top "  >
+              <a href="{{SelectClinicaDados.BaseIndex}}" > <i class="fa fa-reply finc-i-col-b" aria-hidden="true"></i> <strong> Voltar </strong> </a>
+          </div>
+          <div class="col finc-bd-l finc-bt-top" (click)="enviarTratamentos()">
+              <i class="fa fa-share finc-i-col-b" aria-hidden="true"></i> <strong> Enviar Tratamentos </strong>
+          </div>
+          <div class="col finc-bd-l finc-bt-top" (click)="abrirTelaLoteGto()">
+              <strong style="color:blue"> Tela Lote GTOs </strong>
+          </div>
+          <div class="col finc-bd-l finc-bt-top" (click)="abrirTelaNotaFiscal()">
+              <strong style="color:blue"> Tela Nota Fiscal </strong>
+          </div>
+          <div class="col finc-bd-l finc-bt-top" (click)="abrirTelaPagamento()">
+              <strong style="color:blue"> Tela Pagamento </strong>
+          </div>
+          <div class="col finc-bd-l finc-bt-top">
+              <i class="fa fa-file-pdf-o finc-i-col-b" aria-hidden="true"></i> <strong> Imprimir </strong>
+          </div>
+        </div>
+      </div>
+    </div> <!-- end row -->
+
+    <div class="row finc-sub-bts">
+      <form #formFiltros style="width: 95%" (ngSubmit)="buscarDados(true)">
+		  <div class="col">
+		    <div class="row">
+	          <div class="col-md-2">
+	            <div class="form-group frm-topo ">
+	              <label class="lb-topo" >Início </label>
+	              <my-date-picker name="mydate" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions" [(ngModel)]="filtros.dataInicio" placeholder="{{dataHojeDMY}}" required minlength="10"></my-date-picker>
+	            </div>
+	          </div>
+	          <div class="col-md-2">
+	            <div class="form-group frm-topo ">
+	              <label class="lb-topo" >Fim</label>
+	              <my-date-picker name="mydate1" [locale]="locale" [brmasker]="{mask:'00/00/0000', len:10}" [options]="myDatePickerOptions" [(ngModel)]="filtros.dataFim" placeholder="{{dataHojeDMY}}" ng-required minlength="10"></my-date-picker>
+	            </div>
+	          </div>
+
+		      <div class="col-md-3">
+		        <div class="form-group frm-topo ">
+		          <label class="lb-topo" > Unidade Origem </label>
+		            <ng-select class="custom"
+		                [options]="ListUnidadePrestador"
+		                [multiple]="multiple0"
+		                placeholder="{{SelectClinicaDados.nm_unidade_atendimento}}"
+		                [allowClear]="false"
+		                (selected)="onSelectUnidade($event)">
+		            </ng-select>
+		        </div>
+		      </div>
+
+		      <div class="col-md-2">
+		        <div class="form-group frm-topo ">
+		          <label class="lb-topo" for="status_filtro">Status</label>
+	              <select id="status_filtro" name="status_filtro" [(ngModel)]="filtros.status" class="form-control inputTextDataFiltros" (change)="onChangeStatus()">
+	                <option value="todos" [selected]="filtros.status == 'todos'">Todos</option>
+	                <option value="nao_enviados" [selected]="filtros.status == 'nao_enviados'">Não Enviados</option>
+	                <option value="enviados" [selected]="filtros.status == 'enviados'">Enviados</option>
+	              </select>
+		        </div>
+		      </div>
+
+		      <div class="col-md-1">
+		        <div>
+	              <div>
+	              	<br>
+			        <button type="submit" class="btn btn-primary inputTextDataFiltros" style="width:120px" [disabled]="loading"  > <i class="fa fa-search" aria-hidden="true"></i>  Filtrar </button>
+			      </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+	  </form>
+    </div> <!-- end row -->
+
+    <div class="row">
+      <div class="col finc-lista-relatorio" #GridRelatorio >    
+        <div class="finc-bd-tb">  
+          <table class="table table-bordered table-striped table-sm table-info">
+	        <thead>
+	          <tr style="background-color: #bbb">
+	          	<th style="text-align: center;">#</th>
+	            <th style="text-align: left;">Paciente</th>
+	            <th style="text-align: center;">Tratamento</th>
+	            <th style="text-align: center;">Finalização</th>
+	            <th style="text-align: center;">Valor Total</th>
+	            <th style="text-align: center;">Valor Convênio</th>
+	            <th style="text-align: left;">Unid. Autorizada Dentalvidas</th>
+	            <th style="text-align: center;">Data Envio</th>
+	            <th>Func. Enviou</th>
+	            <th style="text-align: center;" width="7%"> <input type="checkbox" name="seleciona_todos" [(ngModel)]="selecionaTodos" (change)="checkAll($event)"></th>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          <tr *ngFor="let item of ListaTrat; let i = index">
+	          	  <td scope="row" style="text-align: center;">{{i+1}}</td>
+	              <td style="text-align: left;"> {{item.nome_paciente}}</td>
+	              <td style="cursor:pointer;" (click)="abrirDetalhes(item, modalDetalhesTrat)">{{item.inicio_trat}}<br><div style="font-size: 14px;" [style.font-weight]="item.nr_guia_gto ? 'normal' : 'bold'" [style.color]="item.nr_guia_gto ? 'blue' : 'red'">{{item.nr_guia_gto ? item.nr_guia_gto : 'GTO não encontrada'}}</div><div style="color: #525050; font-size: 11px; font-style: italic;">{{item.nm_tipo_tratamento}}</div></td>
+	              <!--<td>{{item.tratamento}}<div style="color: #525050; font-size: 11px; font-style: italic;">{{item.nm_tipo_tratamento}}</div></td>-->
+	              <td>{{item.dt_fim_trat}}</td>
+	              <td>{{item.valor_total | number:'1.2-2'}}</td>
+	              <td>{{item.valor_total_convenio | number:'1.2-2'}}</td>
+	              <td style="text-align: left;">{{item.nome_unid_ope ? item.nome_unid_ope : 'Não Encontrada'}}<div [style.display]="item.nome_unid_ope ? 'none' : 'inline'" style="color: red; font-size: 11px; font-style: italic;"><br/>Verifique o vínculo do paciente</div></td>
+	              <td>{{item.data_envio}}</td>
+	              <td>{{item.nm_prestador}}</td>
+	              <td style="text-align:center;">
+	                <input type="checkbox" [(ngModel)]="item.enviar" name="enviar" [style.display]="!item.nome_unid_ope || item.data_envio || !item.nr_guia_gto ? 'none' : 'inline'">
+	              </td>
+	          </tr>
+	        </tbody>
+            <tfoot>
+              <tr>
+                <td style="font-weight: bold; text-align: left;" colspan="2">Valor Total: R$ {{valorTotalEnviar | number:'1.2-2'}}</td>
+                <td style="font-weight: bold;" colspan="3">Total Enviado: R$ {{valorTotalEnviado | number:'1.2-2'}}</td>
+                <td style="font-weight: bold;" colspan="5"></td>
+              </tr>
+            </tfoot>
+          </table>
+
+        </div>
+      </div>
+    </div><!-- end row -->
+  </div> <!-- end container-fluid -->
+
+</section>
+
+<ng-template #modalDetalhesTrat>
+  <div class="modal-header tt-md-corp">
+    <h4 class="modal-title pull-left tt-md-name">Detalhes do Tratamento</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+      <span class="tt-md-close" aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <div class="col-12">
+
+        <strong> PACIENTE: {{tratDetalhe[0].paciente}} | GTO: {{tratDetalhe[0].nr_guia_gto}}</strong><br/>
+        <strong> UNIDADE: {{tratDetalhe[0].nm_unidade_atendimento}}</strong><br/>
+        <strong> TRATAMENTO: Início: {{tratDetalhe[0].inicio_trat}}, Fim: {{tratDetalhe[0].dt_fim_trat}}, {{tratDetalhe[0].nm_tipo_tratamento}}</strong>
+        <table class="table table-bordered table-striped table-sm table-info">
+	      <thead>
+	        <tr style="background-color: #bbb">
+	          <th style="text-align: center;width: 3%">#</th>
+	          <th style="text-align: left;width: 20%">Inter./Região</th>
+	          <th style="text-align: center;width: 5%">Valor Proc.</th>
+	          <th style="text-align: center;width: 5%">Valor Pac.</th>
+	          <th style="text-align: center;width: 5%">Valor Conv.</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <tr *ngFor="let item of tratDetalhe; let i = index">
+	       	    <td scope="row" style="text-align: center;">{{i+1}}</td>
+	            <td style="text-align: left;padding-left: 5px !important; vertical-align: middle">{{item.intervencao}}<br /><em>{{item.regiao}}</em></td>
+	            <td style="text-align:center;vertical-align: middle">{{item.valor | number:'1.2-2'}}</td>
+	            <td style="text-align:center;vertical-align: middle">{{(item.valor - item.receber_convenio) | number:'1.2-2'}}</td>
+	            <td style="text-align:center;vertical-align: middle">{{item.receber_convenio | number:'1.2-2'}}</td>
+	        </tr>
+	      </tbody>
+          <tfoot>
+            <tr>
+              <td style="font-weight: bold; text-align: left;" colspan="2">Total Convênio: R$ {{valorTotalConvTrat | number:'1.2-2'}}</td>
+              <td style="font-weight: bold;" colspan="3"></td>
+            </tr>
+          </tfoot>
+        </table>
+
+      </div>
+
+      <div class="row finc-sub-bts pa-t-15">
+        <div class="col-12 " style="margin-top: 10px;">
+          <button type="button" class="btn btn-primary float-right mgR-15" (click)="hideModal()"> Fechar </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
